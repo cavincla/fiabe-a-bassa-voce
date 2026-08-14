@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { stories, type MoralTopic, type HealthTopic } from "@/lib/mock-stories";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const moralLabels: Record<MoralTopic, string> = {
   coraggio: "Coraggio",
@@ -31,14 +32,17 @@ export default function Home() {
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <header className="mb-10">
-        <p className="text-sm font-medium text-neutral-500">Fiabe a Bassa Voce</p>
-        <h1 className="mt-1 text-3xl font-semibold tracking-tight">
-          Trova la fiaba giusta per stasera
-        </h1>
-        <p className="mt-2 max-w-prose text-neutral-600 dark:text-neutral-400">
-          Gratis, per età, per il tema che vuoi affrontare con il tuo bambino.
-        </p>
+      <header className="mb-10 flex items-start justify-between gap-4">
+        <div>
+          <p className="text-sm font-medium text-neutral-500">Fiabe a Bassa Voce</p>
+          <h1 className="mt-1 text-3xl font-semibold tracking-tight">
+            Trova la fiaba giusta per stasera
+          </h1>
+          <p className="mt-2 max-w-prose text-neutral-600 dark:text-neutral-400">
+            Gratis, per età, per il tema che vuoi affrontare con il tuo bambino.
+          </p>
+        </div>
+        <ThemeToggle />
       </header>
 
       <div className="mb-8 flex flex-wrap gap-2">

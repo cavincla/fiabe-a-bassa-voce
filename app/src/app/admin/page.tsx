@@ -1,12 +1,18 @@
 import Link from "next/link";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function AdminHome() {
   return (
     <main className="mx-auto max-w-2xl px-6 py-12">
-      <p className="text-sm font-medium text-neutral-500">Amministrazione</p>
-      <h1 className="mt-1 text-2xl font-semibold tracking-tight">
-        Fiabe a Bassa Voce — pannello
-      </h1>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <p className="text-sm font-medium text-neutral-500">Amministrazione</p>
+          <h1 className="mt-1 text-2xl font-semibold tracking-tight">
+            Fiabe a Bassa Voce — pannello
+          </h1>
+        </div>
+        <ThemeToggle />
+      </div>
       <p className="mt-2 text-neutral-600 dark:text-neutral-400">
         Da qui si pubblicano le storie. Questa area non è ancora protetta da
         login: va collegata a Supabase Auth prima di andare online (vedi

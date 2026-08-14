@@ -79,13 +79,15 @@ rilanciare `./run.sh`. Se non risponde più, `./run.sh` lo rimette in piedi.
   lo stage `dist` copia esplicitamente `@prisma/adapter-pg` e le sue
   dipendenze nel bundle standalone, perché il tracciamento file di Next.js
   non le rileva da sé (stesso problema già noto per `.prisma`/`@prisma/client`).
-- **Dark mode rotto (regressione minore)**: l'init di shadcn/ui ha reso il
-  dark mode "a classe" (richiede `.dark` su un antenato) invece che
-  automatico da `prefers-color-scheme`. Risultato: l'app resta sempre in
-  tema chiaro finché non si aggiunge un toggle esplicito (tipicamente
-  `next-themes` + un pulsante). Non blocca nulla, ma prima era automatico
-  e ora non lo è più — va deciso se serve un toggle o se si torna al
-  comportamento automatico.
+- **Dark mode**: risolto (commit successivo a `b64e051`) aggiungendo
+  `next-themes` invece di tornare al solo `prefers-color-scheme` — dà un
+  toggle manuale (pulsante luna/sole in home e in `/admin`) che parte
+  comunque da "system" come default. `ThemeProvider` è in
+  `src/components/theme-provider.tsx`, il pulsante in
+  `src/components/theme-toggle.tsx`. Nota: il guard "mounted" nel toggle
+  (pattern standard di next-themes per evitare mismatch di idratazione)
+  richiede un `eslint-disable-next-line react-hooks/set-state-in-effect`
+  intenzionale — non toglierlo pensando sia superfluo.
 - **shadcn/ui inizializzato ma non applicato**: i componenti in
   `app/src/components/ui/` (button, input, textarea, label, card, badge)
   sono pronti ma le pagine admin esistenti (`/admin/storie/nuova`, ecc.)
@@ -95,27 +97,23 @@ rilanciare `./run.sh`. Se non risponde più, `./run.sh` lo rimette in piedi.
 
 In ordine ragionevole, non tutti bloccanti:
 
-1. **Decidere sul dark mode** — toggle esplicito (next-themes) o tornare
-   al comportamento automatico da preferenze di sistema.
-2. **(Opzionale) Migrare l'admin ai componenti shadcn/ui** — sostituire
+1. **(Opzionale) Migrare l'admin ai componenti shadcn/ui** — sostituire
    gli `<input>`/`<button>` scritti a mano in `/admin/storie/nuova` con
    quelli in `src/components/ui/`, per coerenza visiva quando si
    aggiungeranno altre pagine.
-3. **Progetto Supabase** (Auth + Storage) — richiede login, va creato
+2. **Progetto Supabase** (Auth + Storage) — richiede login, va creato
    manualmente su supabase.com. Non serve per Postgres in sviluppo (già
    locale via Docker), ma serve per login admin e upload immagini.
-4. **Autenticazione admin** — `/admin` non è protetta da login; da
+3. **Autenticazione admin** — `/admin` non è protetta da login; da
    collegare a Supabase Auth prima di pubblicare online.
-5. **Upload immagini reale** — il form storia accetta solo URL; da
+4. **Upload immagini reale** — il form storia accetta solo URL; da
    collegare a Supabase Storage.
-6. **Icone PWA vere** — `app/public/icons/icon.svg` è un placeholder
+5. **Icone PWA vere** — `app/public/icons/icon.svg` è un placeholder
    generato; da sostituire con un'illustrazione vera (anche in PNG, per
    compatibilità iOS).
-7. **Deploy** — collegare il repo GitHub (`cavincla/fiabe-a-bassa-voce`,
+6. **Deploy** — collegare il repo GitHub (`cavincla/fiabe-a-bassa-voce`,
    già configurato come remote) a Vercel, oppure pubblicare l'immagine
-   `dist` (`./run.sh -i`) su un host Docker qualsiasi. Non ancora pushato
-   su GitHub: i tre commit locali (`a1c8323`, `9ce9123`, `b64e051`)
-   aspettano conferma per il push.
+   `dist` (`./run.sh -i`) su un host Docker qualsiasi.
 
 ## File utili
 
