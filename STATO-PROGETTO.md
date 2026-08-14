@@ -132,7 +132,14 @@ Prisma e lancia `next dev`. Poi:
 3. **Icone PWA vere** — `app/public/icons/icon.svg` è un placeholder
    generato; da sostituire con un'illustrazione vera (anche in PNG, per
    compatibilità iOS).
-4. **Deploy** — collegare il repo GitHub (`cavincla/fiabe-a-bassa-voce`,
+4. **Redesign UX/UI dell'area pubblica** — il frontend attuale è
+   funzionale ma molto minimale (shadcn/ui "di fabbrica"). Da rianalizzare
+   con un occhio da UX designer per arrivare a mockup più moderni e
+   distintivi (home con i filtri, lettore multimediale a pagine) prima di
+   investire altro tempo su funzionalità aggiuntive — coinvolge tipografia,
+   palette/identità visiva, layout della griglia storie, transizioni di
+   pagina nel lettore.
+5. **Deploy** — collegare il repo GitHub (`cavincla/fiabe-a-bassa-voce`,
    già configurato come remote) a Vercel, oppure pubblicare l'immagine
    `dist` (`./run.sh -i`) su un host Docker qualsiasi. Su Vercel vanno
    replicate le stesse variabili d'ambiente di `app/.env` (incluse quelle
