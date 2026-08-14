@@ -4,54 +4,61 @@ PWA gratuita che aiuta i genitori a trovare fiabe per bambini, categorizzate per
 
 Il piano completo di evoluzione prodotto e tecnico è nell'artifact condiviso in conversazione (fasi 0–6, scelte di stack, roadmap lingue).
 
-## Stack
+Stack: **Next.js 15 + TypeScript + Tailwind CSS + Prisma**, dockerizzato con lo stesso pattern (utente non-root, uid/gid dell'host mappati nel container, stage `dev`/`build`/`assets`/`dist`) usato dal template Python di riferimento (`~/personale/template-project-python`) e già adottato da [`fanta-web`](../fanta-web)/[`fanta-api`](../fanta-api) — adattato qui per un'app Next.js con backend proprio (non un bundle statico servito da nginx: lo stage `dist` esegue il server standalone di Next.js con Node).
 
-- **Next.js 15** (App Router) + TypeScript
-- **Tailwind CSS v3** per lo stile
-- **Prisma 5** + **Postgres** (pensato per [Supabase](https://supabase.com): DB + Auth + Storage)
-- **Serwist** per il service worker / PWA
+## Getting started
 
-## Nota sulla versione di Node
-
-Questo ambiente ha **Node 18.19**. Next.js 16, Tailwind v4, l'ultimo shadcn/ui CLI e le ultime versioni di Prisma e sharp richiedono **Node 20+** e non sono installabili qui: per questo il progetto è pinnato su Next 15 / Tailwind v3 / Prisma 5.22, tutte versioni pienamente supportate e senza funzionalità mancanti per l'MVP.
-
-**Consigliato**: appena possibile aggiorna Node a una versione ≥20 (es. con `nvm install 20`) e poi:
+Avvia l'ambiente di sviluppo dockerizzato:
 
 ```bash
-npm i -D tailwindcss@latest @tailwindcss/postcss   # torna a Tailwind v4
-npm i -D prisma@latest && npm i @prisma/client@latest
-npx shadcn@latest init                              # componenti UI per l'admin
+./run.sh
 ```
 
-Il deploy su Vercel non risente di questo limite: Vercel usa la propria versione di Node in build, indipendente da questa macchina.
+Questo builda l'immagine di sviluppo, avvia il container **app** e un Postgres locale (**db**), esegue `npm install`, sincronizza lo schema Prisma sul database (`prisma db push`) e infine avvia `next dev` con hot-reload, quindi l'app si aggiorna automaticamente ad ogni modifica sotto `app/src`.
 
-## Setup locale
+Una volta avviato:
 
-```bash
-npm install
-cp .env.example .env   # poi inserisci le credenziali del progetto Supabase
-npx prisma db push     # crea le tabelle sul database Supabase
-npm run dev
-```
+- http://localhost:3000/ — area pubblica (elenco fiabe + lettore)
+- http://localhost:3000/admin — pannello di amministrazione
+- Postgres locale su `localhost:5433` (utente/password/db: `fiabe` / `fiabe_dev_password` / `fiabe`) — porta 5433 e non 5432 per non entrare in conflitto con il Postgres di `fanta-api`, se in esecuzione in parallelo
 
-Senza un `DATABASE_URL` valido, l'area pubblica (`/`) funziona comunque con dati di esempio; l'area admin (`/admin/storie`) mostra un avviso finché il database non è collegato.
+Altri flag utili di `run.sh`:
+
+- `./run.sh -s` — apre una shell nel container invece di avviare l'app
+- `./run.sh -t` — esegue i test (da collegare, vedi commento in `run.sh`)
+- `./run.sh -i` — builda ed esegue l'immagine di distribuzione (server standalone Next.js, porta 3000)
 
 ## Struttura
 
 ```
-src/app/(pubblico)   home + lettore storia (/storie/[slug])
-src/app/admin        pannello: elenco + creazione storia
-src/app/api/admin    API per l'admin (Prisma)
-src/components/reader  componente lettore multimediale
-src/lib/mock-stories.ts  dati di esempio per l'area pubblica
-src/lib/db.ts         client Prisma
-prisma/schema.prisma  modello dati
+app/                  codice dell'applicazione Next.js (bind-mounted nel container)
+  src/app/            route pubbliche, admin, API
+  src/components/     componenti React (es. lettore multimediale)
+  src/lib/            client Prisma, dati di esempio
+  prisma/schema.prisma  modello dati
+.build/dockerfiles/   Dockerfile multi-stage + fix-perm.sh
+docker-compose.yml / run.sh   ambiente di sviluppo dockerizzato
+.data/bob-s-home/     home persistente dell'utente del container (solo .bashrc versionato)
+```
+
+## Variabili d'ambiente
+
+In sviluppo `docker-compose.yml` imposta già `DATABASE_URL` verso il Postgres locale: non serve configurare nulla per partire. `app/.env.example` documenta le variabili per **Supabase** (staging/produzione, o per eseguire l'app senza Docker) — copiale in `app/.env` quando servono davvero:
+
+```bash
+cp app/.env.example app/.env
 ```
 
 ## Cosa manca prima di andare online
 
-1. **Progetto Supabase** (DB + Auth + Storage) — richiede login, va creato manualmente su supabase.com.
+1. **Progetto Supabase** (Auth + Storage, e Postgres se non si vuole gestire un DB self-hosted in produzione) — richiede login, va creato manualmente su supabase.com.
 2. **Autenticazione admin**: `/admin` non è ancora protetta da login; va aggiunto un controllo con Supabase Auth prima della pubblicazione.
 3. **Upload immagini reale**: il form storia accetta solo URL; l'upload diretto verso Supabase Storage è da collegare.
-4. **Icone PWA**: `public/icons/icon.svg` è un placeholder generato; va sostituito con un'illustrazione vera (idealmente anche in PNG per compatibilità iOS).
-5. **Deploy Vercel**: collegare questo repository GitHub a un progetto Vercel per il primo deploy pubblico.
+4. **Icone PWA**: `app/public/icons/icon.svg` è un placeholder generato; va sostituito con un'illustrazione vera (idealmente anche in PNG per compatibilità iOS).
+5. **Deploy**: due strade percorribili, non a vicenda esclusive — collegare il repository GitHub a Vercel (più veloce, zero-config per Next.js), oppure pubblicare l'immagine `dist` già pronta (`./run.sh -i` per provarla in locale) su un host Docker qualsiasi.
+
+## Aggiungere dipendenze
+
+Aggiungi la dipendenza ad `app/package.json` (o lancia `npm install <pkg>` dentro il container con `./run.sh -s`); il prossimo `./run.sh` la installa automaticamente nel container.
+
+Nota: dentro Docker si usa Node 22 (vedi `ARG NODE_VERSION` in `.build/dockerfiles/Dockerfile`), quindi qui non ci sono i vincoli di versione che si incontrerebbero sviluppando questo progetto fuori da un container.
