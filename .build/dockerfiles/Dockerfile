@@ -90,7 +90,15 @@ COPY --chown=${DOCKER_USER}:${DOCKER_GROUP} app/package*.json ./
 RUN npm ci
 
 COPY --chown=${DOCKER_USER}:${DOCKER_GROUP} app/ .
+
+# `prisma generate` only reads prisma/schema.prisma to emit the client — it
+# never opens a database connection — but prisma.config.ts's env("DATABASE_URL")
+# now throws at load time if the variable is unset. This placeholder satisfies
+# that check at build time; the real value is injected at runtime (see
+# docker-compose.yml / docker run -e).
+ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder"
 RUN npx prisma generate
+
 RUN npm run build
 
 #
@@ -118,9 +126,13 @@ COPY --from=assets --chown=${DOCKER_USER}:${DOCKER_GROUP} /app/.next/standalone 
 COPY --from=assets --chown=${DOCKER_USER}:${DOCKER_GROUP} /app/.next/static ./.next/static
 COPY --from=assets --chown=${DOCKER_USER}:${DOCKER_GROUP} /app/public ./public
 # Next.js's standalone output tracing doesn't reliably pick up Prisma's
-# generated client + query engine binary, so they're copied explicitly.
+# generated client, query engine binary or driver adapter packages, so
+# they're copied explicitly.
 COPY --from=assets --chown=${DOCKER_USER}:${DOCKER_GROUP} /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=assets --chown=${DOCKER_USER}:${DOCKER_GROUP} /app/node_modules/@prisma/client ./node_modules/@prisma/client
+COPY --from=assets --chown=${DOCKER_USER}:${DOCKER_GROUP} /app/node_modules/@prisma/adapter-pg ./node_modules/@prisma/adapter-pg
+COPY --from=assets --chown=${DOCKER_USER}:${DOCKER_GROUP} /app/node_modules/@prisma/driver-adapter-utils ./node_modules/@prisma/driver-adapter-utils
+COPY --from=assets --chown=${DOCKER_USER}:${DOCKER_GROUP} /app/node_modules/postgres-array ./node_modules/postgres-array
 
 USER ${DOCKER_USER}
 

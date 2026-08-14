@@ -22,18 +22,18 @@ export function StoryReader({
 
   return (
     <div
-      className="mx-auto flex max-w-md flex-col overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm dark:border-white/10 dark:bg-neutral-900"
+      className="mx-auto flex max-w-md flex-col overflow-hidden rounded-2xl border border-black/10 bg-white shadow-xs dark:border-white/10 dark:bg-neutral-900"
       onKeyDown={(e) => {
         if (e.key === "ArrowRight") goTo(index + 1);
         if (e.key === "ArrowLeft") goTo(index - 1);
       }}
       tabIndex={0}
     >
-      <div className="aspect-[4/3] w-full">
+      <div className="aspect-4/3 w-full">
         <PageArt seed={page.artSeed} label={`${title}, pagina ${page.order}`} />
       </div>
 
-      <p className="min-h-[6rem] flex-1 px-6 py-5 text-lg leading-relaxed">
+      <p className="min-h-24 flex-1 px-6 py-5 text-lg leading-relaxed">
         {page.text}
       </p>
 

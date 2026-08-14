@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
   output: "standalone",
 };
 
+// Serwist patches the webpack config to bundle the service worker, and
+// doesn't support Turbopack yet (Next.js 16's default bundler) — hence
+// `--webpack` on the dev/build scripts in package.json. Drop that flag
+// once https://github.com/serwist/serwist/issues/54 lands.
 const withSerwist = withSerwistInit({
   swSrc: "src/app/sw.ts",
   swDest: "public/sw.js",

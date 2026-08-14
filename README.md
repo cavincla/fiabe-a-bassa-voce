@@ -4,7 +4,13 @@ PWA gratuita che aiuta i genitori a trovare fiabe per bambini, categorizzate per
 
 Il piano completo di evoluzione prodotto e tecnico è nell'artifact condiviso in conversazione (fasi 0–6, scelte di stack, roadmap lingue).
 
-Stack: **Next.js 15 + TypeScript + Tailwind CSS + Prisma**, dockerizzato con lo stesso pattern (utente non-root, uid/gid dell'host mappati nel container, stage `dev`/`build`/`assets`/`dist`) usato dal template Python di riferimento (`~/personale/template-project-python`) e già adottato da [`fanta-web`](../fanta-web)/[`fanta-api`](../fanta-api) — adattato qui per un'app Next.js con backend proprio (non un bundle statico servito da nginx: lo stage `dist` esegue il server standalone di Next.js con Node).
+Stack: **Next.js 16 + TypeScript + Tailwind CSS v4 + Prisma 7 + shadcn/ui**, dockerizzato con lo stesso pattern (utente non-root, uid/gid dell'host mappati nel container, stage `dev`/`build`/`assets`/`dist`) usato dal template Python di riferimento (`~/personale/template-project-python`) e già adottato da [`fanta-web`](../fanta-web)/[`fanta-api`](../fanta-api) — adattato qui per un'app Next.js con backend proprio (non un bundle statico servito da nginx: lo stage `dist` esegue il server standalone di Next.js con Node).
+
+Note tecniche di questa combinazione di versioni:
+
+- **Serwist forza webpack**: `next dev`/`next build` girano con `--webpack` (vedi `package.json`) perché Serwist (il service worker della PWA) non supporta ancora Turbopack, il bundler di default in Next.js 16.
+- **Prisma 7 usa i driver adapters**: niente più motore Rust nello schema (`datasource.url` è stato rimosso da `prisma/schema.prisma`); la connessione vive in `prisma.config.ts` (per la CLI) e in `src/lib/db.ts` (per l'app, via `@prisma/adapter-pg`). Lo stage `dist` del Dockerfile copia esplicitamente `@prisma/adapter-pg` e le sue dipendenze, perché il tracciamento file di Next.js per l'output standalone non le rileva da solo.
+- **Dark mode**: l'init di shadcn/ui ha reso il dark mode "a classe" (`.dark` su un antenato) invece che automatico da `prefers-color-scheme`; finché non si aggiunge un toggle (es. `next-themes`), l'app resta sempre in tema chiaro. Vedi il file di riepilogo condiviso in conversazione per i dettagli.
 
 ## Getting started
 
@@ -61,4 +67,4 @@ cp app/.env.example app/.env
 
 Aggiungi la dipendenza ad `app/package.json` (o lancia `npm install <pkg>` dentro il container con `./run.sh -s`); il prossimo `./run.sh` la installa automaticamente nel container.
 
-Nota: dentro Docker si usa Node 22 (vedi `ARG NODE_VERSION` in `.build/dockerfiles/Dockerfile`), quindi qui non ci sono i vincoli di versione che si incontrerebbero sviluppando questo progetto fuori da un container.
+Per aggiungere altri componenti shadcn/ui: `./run.sh -s` poi `npx shadcn@latest add <componente>` dentro il container.
