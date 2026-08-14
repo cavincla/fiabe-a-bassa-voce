@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
+import { buttonVariants } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 export const dynamic = "force-dynamic";
 
@@ -22,10 +24,7 @@ export default async function AdminStorieList() {
 
       <div className="mb-6 mt-2 flex items-center justify-between">
         <h1 className="text-2xl font-semibold tracking-tight">Storie</h1>
-        <Link
-          href="/admin/storie/nuova"
-          className="rounded-lg bg-neutral-900 px-3 py-1.5 text-sm font-medium text-white dark:bg-white dark:text-neutral-900"
-        >
+        <Link href="/admin/storie/nuova" className={buttonVariants({ size: "sm" })}>
           + Nuova
         </Link>
       </div>
@@ -37,20 +36,23 @@ export default async function AdminStorieList() {
       )}
 
       {!dbError && stories.length === 0 && (
-        <p className="text-sm text-neutral-500">
+        <p className="text-sm text-muted-foreground">
           Nessuna storia ancora. Crea la prima.
         </p>
       )}
 
       <ul className="divide-y divide-black/10 dark:divide-white/10">
         {stories.map((s) => (
-          <li key={s.id} className="py-3">
-            <p className="font-medium">
-              {s.translations[0]?.title ?? s.slug}
-            </p>
-            <p className="text-xs text-neutral-500">
-              {s.slug} · {s.status} · {s.pages.length} pagine
-            </p>
+          <li key={s.id} className="flex items-center justify-between py-3">
+            <div>
+              <p className="font-medium">{s.translations[0]?.title ?? s.slug}</p>
+              <p className="text-xs text-muted-foreground">
+                {s.slug} · {s.pages.length} pagine
+              </p>
+            </div>
+            <Badge variant={s.status === "PUBLISHED" ? "default" : "secondary"}>
+              {s.status === "PUBLISHED" ? "pubblicata" : "bozza"}
+            </Badge>
           </li>
         ))}
       </ul>
