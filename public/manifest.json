@@ -1,0 +1,23 @@
+{
+  "name": "Fiabe a Bassa Voce",
+  "short_name": "Fiabe a Bassa Voce",
+  "description": "Fiabe per bambini, categorizzate per età, morale e benessere.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#171433",
+  "theme_color": "#171433",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
