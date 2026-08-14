@@ -1,9 +1,9 @@
 # Stato del progetto — Fiabe a Bassa Voce
 
-> Scritto il 14 agosto 2026. Se apri una nuova sessione Claude Code, aprila
-> in **questa cartella** (`~/personale/fiabe-a-bassa-voce`), non in
-> `~/personale`: da lì Claude non vede il repository git né può eseguire
-> `./run.sh`.
+> Scritto il 14 agosto 2026, aggiornato il 15 agosto 2026. Se apri una
+> nuova sessione Claude Code, aprila in **questa cartella**
+> (`~/personale/fiabe-a-bassa-voce`), non in `~/personale`: da lì Claude
+> non vede il repository git né può eseguire `./run.sh`.
 
 ## Cos'è
 
@@ -45,7 +45,33 @@ incontrati sviluppando in locale):
 - Next.js 15 → **16**, Tailwind v3 → **v4** (config CSS-first),
   Prisma 5 → **7** (passato ai driver adapter, niente più motore Rust
   imbarcato), **shadcn/ui** inizializzato con un primo set di componenti
-  (button, input, textarea, label, card, badge)
+
+**Dark mode** (commit `0cda25f`): toggle manuale con `next-themes`
+(luna/sole in home e in `/admin`), parte comunque da "system" come default.
+
+**Admin migrato a shadcn/ui + Supabase Auth scaffoldato** (sessione del
+15 agosto, da committare):
+- `/admin/storie/nuova`, `/admin/storie`, `/admin` ora usano i componenti
+  `Button`/`Input`/`Textarea`/`Label`/`Card`/`Badge` invece di HTML scritto
+  a mano — testato end-to-end (creazione storia reale via form migrato)
+- Login admin con Supabase Auth (email/password, nessuna registrazione
+  pubblica: un solo utente admin, creato a mano da dashboard Supabase):
+  `/admin/login`, protezione di tutte le `/admin/*` via
+  `src/proxy.ts` (Next.js 16 ha rinominato `middleware.ts` in `proxy.ts`,
+  stesso meccanismo), pulsante di uscita nel pannello
+  - **Sicura di default anche senza Supabase configurato**: se
+    `NEXT_PUBLIC_SUPABASE_URL`/`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` non
+    sono impostate, `/admin` resta accessibile senza login (comportamento
+    identico a prima, non un errore) con un avviso in pagina — non si
+    blocca l'accesso per errore, ma non lo protegge nemmeno finché non è
+    configurato per davvero
+  - **Codice basato sul pattern ufficiale Supabase + Next.js App Router**
+    (verificato leggendo l'esempio corrente `vercel/next.js/examples/
+    with-supabase` su GitHub, non a memoria), ma il percorso "login con
+    credenziali vere → redirect protetto" **non è ancora stato testato
+    end-to-end**: serve un progetto Supabase reale per verificarlo (vedi
+    prossimo passo). Quello che è verificato: build, lint, e che senza
+    Supabase configurato l'app resta nello stato sicuro attuale.
 
 ## Come riprendere il lavoro
 
@@ -61,11 +87,6 @@ Prisma e lancia `next dev`. Poi:
 - http://localhost:3000/admin — pannello admin
 - Postgres su `localhost:5433` (`fiabe` / `fiabe_dev_password` / `fiabe`)
 
-**In questo momento l'ambiente è già in esecuzione** (container
-`fiabe-a-bassa-voce-app-1` e `fiabe-a-bassa-voce-db-1`, avviati durante
-questa sessione): puoi aprire subito http://localhost:3000/ senza
-rilanciare `./run.sh`. Se non risponde più, `./run.sh` lo rimette in piedi.
-
 ## Decisioni tecniche da tenere a mente
 
 - **`--webpack` forzato** su `next dev`/`next build` (in `package.json`):
@@ -79,41 +100,43 @@ rilanciare `./run.sh`. Se non risponde più, `./run.sh` lo rimette in piedi.
   lo stage `dist` copia esplicitamente `@prisma/adapter-pg` e le sue
   dipendenze nel bundle standalone, perché il tracciamento file di Next.js
   non le rileva da sé (stesso problema già noto per `.prisma`/`@prisma/client`).
-- **Dark mode**: risolto (commit successivo a `b64e051`) aggiungendo
-  `next-themes` invece di tornare al solo `prefers-color-scheme` — dà un
-  toggle manuale (pulsante luna/sole in home e in `/admin`) che parte
-  comunque da "system" come default. `ThemeProvider` è in
-  `src/components/theme-provider.tsx`, il pulsante in
-  `src/components/theme-toggle.tsx`. Nota: il guard "mounted" nel toggle
-  (pattern standard di next-themes per evitare mismatch di idratazione)
-  richiede un `eslint-disable-next-line react-hooks/set-state-in-effect`
-  intenzionale — non toglierlo pensando sia superfluo.
-- **shadcn/ui inizializzato ma non applicato**: i componenti in
-  `app/src/components/ui/` (button, input, textarea, label, card, badge)
-  sono pronti ma le pagine admin esistenti (`/admin/storie/nuova`, ecc.)
-  usano ancora HTML/Tailwind scritti a mano, non i componenti shadcn.
+- **`src/proxy.ts`, non `middleware.ts`**: Next.js 16 ha rinominato il
+  meccanismo. Se cerchi documentazione o esempi più vecchi troverai
+  `middleware.ts` — stesso concetto, nome diverso in questa versione.
+- **Un solo admin**: niente registrazione pubblica. L'utente va creato a
+  mano nella dashboard Supabase (Authentication > Users), non tramite
+  un form nel sito.
 
 ## Prossimi passi
 
-In ordine ragionevole, non tutti bloccanti:
-
-1. **(Opzionale) Migrare l'admin ai componenti shadcn/ui** — sostituire
-   gli `<input>`/`<button>` scritti a mano in `/admin/storie/nuova` con
-   quelli in `src/components/ui/`, per coerenza visiva quando si
-   aggiungeranno altre pagine.
-2. **Progetto Supabase** (Auth + Storage) — richiede login, va creato
-   manualmente su supabase.com. Non serve per Postgres in sviluppo (già
-   locale via Docker), ma serve per login admin e upload immagini.
-3. **Autenticazione admin** — `/admin` non è protetta da login; da
-   collegare a Supabase Auth prima di pubblicare online.
-4. **Upload immagini reale** — il form storia accetta solo URL; da
-   collegare a Supabase Storage.
-5. **Icone PWA vere** — `app/public/icons/icon.svg` è un placeholder
+1. **Creare il progetto Supabase e collegarlo** — è il vero collo di
+   bottiglia, sblocca login admin, upload immagini e (in parte) il
+   deploy. Serve login su supabase.com:
+   1. Crea un nuovo progetto (nome libero, password del DB a scelta —
+      non serve ricordarla se non si userà anche come Postgres di
+      produzione, scegli una regione europea)
+   2. **Project Settings > API**: copia "Project URL" e la chiave
+      "publishable" (o "anon public" se l'interfaccia mostra ancora il
+      nome vecchio) — vanno in `app/.env` come `NEXT_PUBLIC_SUPABASE_URL`
+      e `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+   3. **Authentication > Users > Add user > Create new user**: crea il
+      tuo utente admin con email e password, spuntando "Auto Confirm
+      User" (altrimenti serve confermare via email)
+   4. Salva `app/.env`, poi dentro il container: riavvia `next dev`
+      (o rilancia `./run.sh`) perché legga le nuove variabili
+   5. Vai su `/admin/login` e prova ad accedere — **questo è il primo
+      test reale del flusso di login**, non ancora verificato in questa
+      sessione
+2. **Upload immagini reale** — il form storia accetta solo URL; da
+   collegare a Supabase Storage (stesso progetto del punto 1).
+3. **Icone PWA vere** — `app/public/icons/icon.svg` è un placeholder
    generato; da sostituire con un'illustrazione vera (anche in PNG, per
    compatibilità iOS).
-6. **Deploy** — collegare il repo GitHub (`cavincla/fiabe-a-bassa-voce`,
+4. **Deploy** — collegare il repo GitHub (`cavincla/fiabe-a-bassa-voce`,
    già configurato come remote) a Vercel, oppure pubblicare l'immagine
-   `dist` (`./run.sh -i`) su un host Docker qualsiasi.
+   `dist` (`./run.sh -i`) su un host Docker qualsiasi. Su Vercel vanno
+   replicate le stesse variabili d'ambiente di `app/.env` (incluse quelle
+   Supabase) nelle impostazioni del progetto.
 
 ## File utili
 
@@ -121,3 +144,4 @@ In ordine ragionevole, non tutti bloccanti:
 - `.build/dockerfiles/Dockerfile` — build multi-stage commentata
 - `app/prisma/schema.prisma` — modello dati
 - `app/src/lib/mock-stories.ts` — le due fiabe di esempio nell'area pubblica
+- `app/src/lib/supabase/` — client browser/server e logica del proxy di autenticazione

@@ -10,7 +10,8 @@ Note tecniche di questa combinazione di versioni:
 
 - **Serwist forza webpack**: `next dev`/`next build` girano con `--webpack` (vedi `package.json`) perché Serwist (il service worker della PWA) non supporta ancora Turbopack, il bundler di default in Next.js 16.
 - **Prisma 7 usa i driver adapters**: niente più motore Rust nello schema (`datasource.url` è stato rimosso da `prisma/schema.prisma`); la connessione vive in `prisma.config.ts` (per la CLI) e in `src/lib/db.ts` (per l'app, via `@prisma/adapter-pg`). Lo stage `dist` del Dockerfile copia esplicitamente `@prisma/adapter-pg` e le sue dipendenze, perché il tracciamento file di Next.js per l'output standalone non le rileva da solo.
-- **Dark mode**: l'init di shadcn/ui ha reso il dark mode "a classe" (`.dark` su un antenato) invece che automatico da `prefers-color-scheme`; finché non si aggiunge un toggle (es. `next-themes`), l'app resta sempre in tema chiaro. Vedi il file di riepilogo condiviso in conversazione per i dettagli.
+- **Dark mode**: toggle manuale con `next-themes` (pulsante luna/sole in home e in `/admin`), parte comunque da "system" come default.
+- **`src/proxy.ts`, non `middleware.ts`**: Next.js 16 ha rinominato il meccanismo. Protegge tutte le `/admin/*` con Supabase Auth (login email/password, un solo utente admin creato a mano su Supabase, nessuna registrazione pubblica). Se `NEXT_PUBLIC_SUPABASE_URL`/`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` non sono configurate, `/admin` resta aperta senza login (comportamento sicuro di default, non un errore) con un avviso in pagina.
 
 ## Getting started
 
@@ -57,11 +58,10 @@ cp app/.env.example app/.env
 
 ## Cosa manca prima di andare online
 
-1. **Progetto Supabase** (Auth + Storage, e Postgres se non si vuole gestire un DB self-hosted in produzione) — richiede login, va creato manualmente su supabase.com.
-2. **Autenticazione admin**: `/admin` non è ancora protetta da login; va aggiunto un controllo con Supabase Auth prima della pubblicazione.
-3. **Upload immagini reale**: il form storia accetta solo URL; l'upload diretto verso Supabase Storage è da collegare.
-4. **Icone PWA**: `app/public/icons/icon.svg` è un placeholder generato; va sostituito con un'illustrazione vera (idealmente anche in PNG per compatibilità iOS).
-5. **Deploy**: due strade percorribili, non a vicenda esclusive — collegare il repository GitHub a Vercel (più veloce, zero-config per Next.js), oppure pubblicare l'immagine `dist` già pronta (`./run.sh -i` per provarla in locale) su un host Docker qualsiasi.
+1. **Creare il progetto Supabase** — richiede login su supabase.com; sblocca il login admin (già scritto, da testare) e l'upload immagini. Istruzioni passo-passo in `STATO-PROGETTO.md`.
+2. **Upload immagini reale**: il form storia accetta solo URL; l'upload diretto verso Supabase Storage è da collegare.
+3. **Icone PWA**: `app/public/icons/icon.svg` è un placeholder generato; va sostituito con un'illustrazione vera (idealmente anche in PNG per compatibilità iOS).
+4. **Deploy**: due strade percorribili, non a vicenda esclusive — collegare il repository GitHub a Vercel (più veloce, zero-config per Next.js), oppure pubblicare l'immagine `dist` già pronta (`./run.sh -i` per provarla in locale) su un host Docker qualsiasi.
 
 ## Aggiungere dipendenze
 
