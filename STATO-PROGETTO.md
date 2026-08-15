@@ -73,6 +73,38 @@ incontrati sviluppando in locale):
     prossimo passo). Quello che è verificato: build, lint, e che senza
     Supabase configurato l'app resta nello stato sicuro attuale.
 
+**Redesign UX/UI dell'area pubblica** (sessione del 15 agosto, da
+committare) — prima un mockup HTML statico condiviso e approvato, poi
+portato nel codice React:
+- Direzione: la fascia "notte" (indaco `#171433`, lo stesso del
+  `themeColor` della PWA) come soglia fissa del marchio in home, non
+  legata al toggle chiaro/scuro — è il rito della sera che il prodotto
+  racconta. Un solo accento caldo (ambra, "la lampada") usato con
+  parsimonia: pieno (`#e8a23c`) sui fondi scuri, scurito (`#a85a16`)
+  come colore dei bottoni sui fondi chiari per restare accessibile.
+- Tipografia: **Fraunces** (self-hosted via `next/font/google`, variabile,
+  con italico) per titoli e per il testo delle pagine lette nel lettore;
+  **Karla** per l'interfaccia (filtri, pulsanti, metadati). Sostituiscono
+  Geist, che di fatto non era nemmeno collegato correttamente al token
+  Tailwind `--font-sans` nello scaffold originale.
+- Token colore in `app/src/app/globals.css` (`:root`/`.dark`) aggiornati
+  da scala di grigi shadcn di default alla palette notte/ambra — si
+  propaga automaticamente a tutti i componenti shadcn, **admin incluso**
+  (non ridisegnata a parte, ma coerente perché condivide gli stessi token).
+  `--radius` alzato a `0.85rem` per un feel più morbido.
+- `PageArt` (copertine storia + illustrazioni pagina) riscritta con un
+  bagliore pittorico + stelline invece dei due cerchi sfumati piatti di
+  prima; resta procedurale da qualunque colore seed, non hardcoded per
+  storia.
+- `StoryReader`: card "libro" sospesa, testo in Fraunces, indicatori di
+  pagina a forma di stellina (`.star-marker`, clip-path in `globals.css`).
+- **Verificato**: lint e build puliti; testato visivamente con Playwright
+  headless (installato temporaneamente nel container, non salvato in
+  `package.json`) su home/lettore/admin, tema chiaro e scuro — screenshot
+  poi rimossi, non fanno parte della repo.
+- Mockup di partenza (artifact HTML, non più necessario ora che è in
+  codice): https://claude.ai/code/artifact/fb17638f-b659-4b76-9d51-a737e1599aef
+
 ## Come riprendere il lavoro
 
 ```bash
@@ -132,14 +164,7 @@ Prisma e lancia `next dev`. Poi:
 3. **Icone PWA vere** — `app/public/icons/icon.svg` è un placeholder
    generato; da sostituire con un'illustrazione vera (anche in PNG, per
    compatibilità iOS).
-4. **Redesign UX/UI dell'area pubblica** — il frontend attuale è
-   funzionale ma molto minimale (shadcn/ui "di fabbrica"). Da rianalizzare
-   con un occhio da UX designer per arrivare a mockup più moderni e
-   distintivi (home con i filtri, lettore multimediale a pagine) prima di
-   investire altro tempo su funzionalità aggiuntive — coinvolge tipografia,
-   palette/identità visiva, layout della griglia storie, transizioni di
-   pagina nel lettore.
-5. **Deploy** — collegare il repo GitHub (`cavincla/fiabe-a-bassa-voce`,
+4. **Deploy** — collegare il repo GitHub (`cavincla/fiabe-a-bassa-voce`,
    già configurato come remote) a Vercel, oppure pubblicare l'immagine
    `dist` (`./run.sh -i`) su un host Docker qualsiasi. Su Vercel vanno
    replicate le stesse variabili d'ambiente di `app/.env` (incluse quelle

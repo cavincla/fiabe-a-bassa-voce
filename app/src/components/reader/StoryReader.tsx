@@ -22,7 +22,7 @@ export function StoryReader({
 
   return (
     <div
-      className="mx-auto flex max-w-md flex-col overflow-hidden rounded-2xl border border-black/10 bg-white shadow-xs dark:border-white/10 dark:bg-neutral-900"
+      className="mx-auto flex max-w-md flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-[0_20px_46px_-20px_rgba(23,20,51,0.35)]"
       onKeyDown={(e) => {
         if (e.key === "ArrowRight") goTo(index + 1);
         if (e.key === "ArrowLeft") goTo(index - 1);
@@ -33,15 +33,15 @@ export function StoryReader({
         <PageArt seed={page.artSeed} label={`${title}, pagina ${page.order}`} />
       </div>
 
-      <p className="min-h-24 flex-1 px-6 py-5 text-lg leading-relaxed">
+      <p className="min-h-24 flex-1 px-6 py-5 font-heading text-lg leading-relaxed text-card-foreground">
         {page.text}
       </p>
 
-      <div className="flex items-center justify-between border-t border-black/10 px-4 py-3 dark:border-white/10">
+      <div className="flex items-center justify-between border-t border-border px-4 py-3">
         <button
           onClick={() => goTo(index - 1)}
           disabled={isFirst}
-          className="rounded-full px-3 py-1.5 text-sm font-medium text-neutral-600 disabled:opacity-30 hover:bg-black/5 dark:text-neutral-300 dark:hover:bg-white/10"
+          className="rounded-full px-3 py-1.5 text-sm font-medium text-muted-foreground transition hover:bg-muted hover:text-foreground disabled:opacity-30"
           aria-label="Pagina precedente"
         >
           ← Indietro
@@ -51,8 +51,8 @@ export function StoryReader({
           {pages.map((p, i) => (
             <span
               key={p.order}
-              className={`h-1.5 w-1.5 rounded-full ${
-                i === index ? "bg-neutral-800 dark:bg-neutral-200" : "bg-neutral-300 dark:bg-neutral-700"
+              className={`star-marker h-2.5 w-2.5 ${
+                i === index ? "bg-primary" : "bg-muted-foreground/30"
               }`}
             />
           ))}
@@ -61,7 +61,7 @@ export function StoryReader({
         <button
           onClick={() => goTo(index + 1)}
           disabled={isLast}
-          className="rounded-full px-3 py-1.5 text-sm font-medium text-neutral-600 disabled:opacity-30 hover:bg-black/5 dark:text-neutral-300 dark:hover:bg-white/10"
+          className="rounded-full px-3 py-1.5 text-sm font-medium text-muted-foreground transition hover:bg-muted hover:text-foreground disabled:opacity-30"
           aria-label="Pagina successiva"
         >
           Avanti →

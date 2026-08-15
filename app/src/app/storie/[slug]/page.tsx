@@ -18,11 +18,14 @@ export default async function StoryPage({
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <Link href="/" className="text-sm text-neutral-500 hover:underline">
+      <Link
+        href="/"
+        className="text-sm text-muted-foreground transition hover:text-foreground hover:underline"
+      >
         ← Tutte le fiabe
       </Link>
 
-      <h1 className="mb-6 mt-2 text-2xl font-semibold tracking-tight">
+      <h1 className="mb-6 mt-2 font-heading text-3xl font-semibold tracking-tight text-balance">
         {story.title}
       </h1>
 
