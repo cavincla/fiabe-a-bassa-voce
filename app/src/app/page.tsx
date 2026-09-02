@@ -10,11 +10,16 @@ const moralLabels: Record<MoralTopic, string> = {
   coraggio: "Coraggio",
   condivisione: "Condivisione",
   amicizia: "Amicizia",
+  pazienza: "Pazienza",
+  onestà: "Onestà",
+  gentilezza: "Gentilezza",
 };
 
 const healthLabels: Record<HealthTopic, string> = {
   alimentazione: "Alimentazione",
   sonno: "Sonno",
+  movimento: "Movimento",
+  igiene: "Igiene",
 };
 
 function FilterChip({

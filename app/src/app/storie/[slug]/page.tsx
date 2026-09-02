@@ -29,7 +29,7 @@ export default async function StoryPage({
         {story.title}
       </h1>
 
-      <StoryReader title={story.title} pages={story.pages} />
+      <StoryReader story={story} />
     </main>
   );
 }

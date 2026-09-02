@@ -105,6 +105,28 @@ portato nel codice React:
 - Mockup di partenza (artifact HTML, non più necessario ora che è in
   codice): https://claude.ai/code/artifact/fb17638f-b659-4b76-9d51-a737e1599aef
 
+**Dieci fiabe nuove + lettore con apertura libro e sfogliamento** (sessione
+del 2 settembre 2026):
+- `app/src/lib/mock-stories.ts`: 10 fiabe scritte da zero (5 pagine ciascuna,
+  età 3-8, temi morale/salute ampliati con `pazienza`, `onestà`, `gentilezza`,
+  `movimento`, `igiene`), oltre alle 2 di esempio già esistenti — 12 in totale
+  nell'area pubblica, per avere abbastanza contenuto da provare davvero il
+  lettore e i filtri
+- `PageArt`: oltre al gradiente procedurale, ogni pagina ora porta una
+  sagoma illustrativa (`icon`, es. volpe, drago, luna, riccio...) coerente
+  con la storia, non solo un blocco di colore
+- `StoryReader` riscritto: prima si vede la copertina chiusa del libro
+  (titolo, descrizione, pulsante "Apri il libro"), un click la apre con una
+  rotazione 3D in CSS; dentro, ogni cambio pagina è un vero sfogliamento
+  (flip a 3D con `rotateY`, non più uno scatto istantaneo), sia dai pulsanti
+  Indietro/Avanti sia da zone di tap invisibili sui bordi sinistro/destro
+  della pagina, oltre alle frecce da tastiera già presenti
+- **Verificato**: lint pulito sui file toccati; testato end-to-end con
+  Playwright headless (`next dev` locale senza Docker, non serve il
+  database per le pagine pubbliche) — copertina, apertura, sfogliamento
+  avanti/indietro fino all'ultima pagina, filtri con le nuove categorie,
+  tema chiaro e scuro, nessun errore in console
+
 ## Come riprendere il lavoro
 
 ```bash
