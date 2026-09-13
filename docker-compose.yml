@@ -13,25 +13,9 @@ services:
     environment:
       - TERM=xterm-256color
       - TZ=Europe/Rome
-      - DATABASE_URL=postgresql://fiabe:fiabe_dev_password@db:5432/fiabe
-    depends_on:
-      - db
-
-  db:
-    image: postgres:16
-    ports:
-      - "5433:5432"
-    volumes:
-      - "pgdata:/var/lib/postgresql/data"
-    environment:
-      - TZ=Europe/Rome
-      - POSTGRES_DB=fiabe
-      - POSTGRES_USER=fiabe
-      - POSTGRES_PASSWORD=fiabe_dev_password
 
 volumes:
-  # node_modules lives in a named volume, not the bind mount above: native
-  # deps (Prisma engines, ...) built inside the Linux container would
-  # otherwise get shadowed/broken by a host node_modules of a different OS.
+  # node_modules lives in a named volume, not the bind mount above: a host
+  # node_modules built on a different OS would otherwise shadow the one
+  # installed inside the Linux container.
   app_node_modules:
-  pgdata:

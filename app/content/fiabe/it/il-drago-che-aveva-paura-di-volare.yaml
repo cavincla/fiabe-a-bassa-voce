@@ -1,0 +1,46 @@
+# Il drago che aveva paura di volare — 5-8 anni
+# Lo slug della fiaba è il nome di questo file; l'ordine delle pagine è
+# l'ordine in cui appaiono qui sotto.
+titolo: Il drago che aveva paura di volare
+descrizione: >-
+  Ignazio è un draghetto con ali enormi che non ha mai osato aprire. Un
+  salto dalla cima della montagna gli insegna che il coraggio, a volte, è
+  solo un primo battito d'ali.
+eta:
+  da: 5
+  a: 8
+temi: [coraggio]
+salute: []
+copertina:
+  tinta: "#7a2d2d"
+  sagoma: dragon
+pagine:
+  - testo: >-
+      Ignazio era un draghetto rosso con ali enormi, più grandi di quelle di
+      ogni altro drago della montagna. Eppure non le aveva mai aperte davvero,
+      nemmeno una volta.
+    tinta: "#a8433f"
+    sagoma: dragon
+  - testo: >-
+      «E se cadessi?» pensava, guardando gli altri draghetti volteggiare nel
+      cielo sopra le nuvole. Restava sempre sul bordo della roccia, con le ali
+      strette al corpo.
+    tinta: "#7a2d2d"
+    sagoma: dragon
+  - testo: >-
+      Un vecchio drago con la barba di fumo si sedette accanto a lui. «Le ali
+      non servono a non cadere» disse. «Servono a decidere dove andare, mentre
+      cadi.»
+    tinta: "#5c2020"
+    sagoma: dragon
+  - testo: >-
+      Ignazio chiuse gli occhi, respirò forte, e si lasciò cadere dal bordo
+      della roccia. Per un istante lunghissimo ci fu solo vento, e nient'altro
+      sotto di lui.
+    tinta: "#3f1616"
+    sagoma: dragon
+  - testo: >-
+      Poi le sue ali si aprirono da sole, enormi e dorate nel sole del tramonto,
+      e Ignazio smise di cadere e cominciò, finalmente, a volare.
+    tinta: "#7a2d2d"
+    sagoma: dragon

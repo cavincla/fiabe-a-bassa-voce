@@ -1,0 +1,45 @@
+# La volpe che rubava le stelle — 5-7 anni
+# Lo slug della fiaba è il nome di questo file; l'ordine delle pagine è
+# l'ordine in cui appaiono qui sotto.
+titolo: La volpe che rubava le stelle
+descrizione: >-
+  Rossana la volpe raccoglie di nascosto le stelline cadute nel bosco,
+  tenendole tutte per sé in una tana scintillante. Il bosco al buio le
+  insegna cosa significa davvero condividere la luce.
+eta:
+  da: 5
+  a: 7
+temi: [condivisione, onestà]
+salute: []
+copertina:
+  tinta: "#2b2856"
+  sagoma: fox
+pagine:
+  - testo: >-
+      Ogni notte, quando una stella cadeva nel bosco, Rossana la volpe correva a
+      raccoglierla prima di chiunque altro, portandola di nascosto nella sua
+      tana sotto la quercia.
+    tinta: "#3d3a70"
+    sagoma: fox
+  - testo: >-
+      La sua tana ormai scintillava come un piccolo cielo tutto per sé. Ma
+      fuori, il bosco era diventato buio, sempre più buio, notte dopo notte.
+    tinta: "#2b2856"
+    sagoma: fox
+  - testo: >-
+      Gli animali del bosco iniziarono a inciampare nei sentieri, a perdersi tra
+      gli alberi. «Dove sono finite tutte le nostre stelle?» si chiedevano,
+      spaventati.
+    tinta: "#201d40"
+    sagoma: fox
+  - testo: >-
+      Rossana guardò la sua tana piena di luce e poi pensò al bosco buio fuori.
+      Per la prima volta si vergognò di quel bagliore tutto suo.
+    tinta: "#171433"
+    sagoma: fox
+  - testo: >-
+      Portò fuori le stelle, una a una, e le rimise a danzare nel cielo sopra
+      gli alberi. Il bosco tornò a brillare per tutti, e Rossana, dalla sua tana
+      ora buia, si sentì stranamente più leggera.
+    tinta: "#2b2856"
+    sagoma: fox

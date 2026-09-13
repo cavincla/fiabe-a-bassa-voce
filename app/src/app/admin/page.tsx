@@ -38,15 +38,15 @@ export default async function AdminHome() {
 
       <div className="mt-8 flex gap-3">
         <Link href="/admin/storie" className={buttonVariants()}>
-          Elenco storie
-        </Link>
-        <Link
-          href="/admin/storie/nuova"
-          className={buttonVariants({ variant: "outline" })}
-        >
-          Nuova storia
+          Elenco fiabe
         </Link>
       </div>
+
+      <p className="mt-6 text-sm text-muted-foreground">
+        Le fiabe sono file YAML in <code>content/fiabe/it/</code>, versionati con
+        il codice: si aggiungono e si correggono da lì, non da qui. Questo
+        pannello serve a rileggere cosa è pubblicato.
+      </p>
     </main>
   );
 }

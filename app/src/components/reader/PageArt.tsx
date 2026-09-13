@@ -1,16 +1,21 @@
-export type ArtIcon =
-  | "carrot"
-  | "raven"
-  | "sprout"
-  | "firefly"
-  | "umbrella"
-  | "hedgehog"
-  | "turtle"
-  | "cat"
-  | "fox"
-  | "bear"
-  | "dragon"
-  | "moon";
+// Elenco a runtime (non solo un tipo) perché il loader dei contenuti deve
+// poter verificare che la sagoma scritta in un file YAML esista davvero.
+export const ART_ICONS = [
+  "carrot",
+  "raven",
+  "sprout",
+  "firefly",
+  "umbrella",
+  "hedgehog",
+  "turtle",
+  "cat",
+  "fox",
+  "bear",
+  "dragon",
+  "moon",
+] as const;
+
+export type ArtIcon = (typeof ART_ICONS)[number];
 
 function shade(hex: string, amount: number) {
   const n = parseInt(hex.slice(1), 16);

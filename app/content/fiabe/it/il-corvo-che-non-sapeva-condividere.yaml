@@ -1,0 +1,36 @@
+# Il corvo che non sapeva condividere — 5-7 anni
+# Lo slug della fiaba è il nome di questo file; l'ordine delle pagine è
+# l'ordine in cui appaiono qui sotto.
+titolo: Il corvo che non sapeva condividere
+descrizione: >-
+  Nerino il corvo nasconde ogni cosa luccicante che trova. Una sera
+  d'inverno impara che tenere tutto per sé, a volte, è la scelta più fredda.
+eta:
+  da: 5
+  a: 7
+temi: [condivisione, amicizia]
+salute: []
+copertina:
+  tinta: "#333066"
+  sagoma: raven
+pagine:
+  - testo: >-
+      Nerino il corvo aveva il nido più pieno del bosco: bottoni, monetine,
+      pezzetti di vetro colorato. Tutto suo, e di nessun altro.
+    tinta: "#333066"
+    sagoma: raven
+  - testo: >-
+      Una notte di neve, il piccolo scoiattolo Nocciola bussò tremante: «Ho
+      freddo, hai un po' di paglia in più?» Nerino scosse la testa.
+    tinta: "#232244"
+    sagoma: raven
+  - testo: >-
+      Nerino restò solo nel suo nido pieno di cose scintillanti, ma quella notte
+      il freddo sembrava entrare lo stesso, dritto nel petto.
+    tinta: "#5b5468"
+    sagoma: raven
+  - testo: >-
+      Il giorno dopo portò metà del suo tesoro a Nocciola. Il nido di Nerino era
+      più vuoto, ma per la prima volta non sentiva più freddo.
+    tinta: "#8a5f22"
+    sagoma: raven

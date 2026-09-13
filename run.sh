@@ -48,8 +48,8 @@ docker compose build --pull --build-arg FIX_UID="$(id -u)" --build-arg FIX_GID="
 # Start docker environment
 docker compose up -d
 
-# Install app dependencies and sync the database schema (if needed)
-docker compose exec app /bin/bash -c "npm install && npx prisma generate && npx prisma db push"
+# Install app dependencies
+docker compose exec app /bin/bash -c "npm install"
 
 if [ $TESTS -eq 1 ]; then
     # Uncomment the following line when you have tests ;)

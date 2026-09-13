@@ -1,0 +1,47 @@
+# La bambina che parlava con la luna — 4-6 anni
+# Lo slug della fiaba è il nome di questo file; l'ordine delle pagine è
+# l'ordine in cui appaiono qui sotto.
+titolo: La bambina che parlava con la luna
+descrizione: >-
+  Ogni sera Vera non riesce a prendere sonno, finché non scopre di poter
+  raccontare le sue giornate alla luna dalla finestra. Un piccolo rito che
+  rende la notte meno grande.
+eta:
+  da: 4
+  a: 6
+temi: [gentilezza]
+salute: [sonno]
+copertina:
+  tinta: "#171433"
+  sagoma: moon
+pagine:
+  - testo: >-
+      Vera restava sveglia nel suo letto ogni sera, con la testa piena di
+      pensieri che giravano come trottole: la scuola, i litigi, le cose non
+      dette durante il giorno.
+    tinta: "#201c48"
+    sagoma: moon
+  - testo: >-
+      Una notte, guardando fuori dalla finestra, vide la luna tonda e silenziosa
+      sopra i tetti. «Ciao» le sussurrò piano, tanto per provare. La luna non
+      rispose, ma sembrò ascoltare.
+    tinta: "#171433"
+    sagoma: moon
+  - testo: >-
+      Da quella sera, Vera cominciò a raccontarle tutto: la caduta in cortile,
+      la torta buona, l'amica che le mancava. Parola dopo parola, i pensieri si
+      facevano più leggeri.
+    tinta: "#2b2650"
+    sagoma: moon
+  - testo: >-
+      «Grazie per avermi ascoltata» diceva sempre, alla fine, prima di tirare su
+      le coperte. La luna restava lì, paziente, come fa da sempre con chiunque
+      alzi lo sguardo.
+    tinta: "#33285a"
+    sagoma: moon
+  - testo: >-
+      Vera scoprì che raccontare la giornata a qualcuno, anche solo a una luna
+      silenziosa, era il modo più dolce per lasciarla andare e finalmente
+      addormentarsi.
+    tinta: "#f4b968"
+    sagoma: moon

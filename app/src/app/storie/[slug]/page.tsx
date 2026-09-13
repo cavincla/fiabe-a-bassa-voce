@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getStoryBySlug, stories } from "@/lib/mock-stories";
+import { getStories, getStoryBySlug } from "@/lib/stories";
 import { StoryReader } from "@/components/reader/StoryReader";
 
+// Una pagina statica per ogni file in content/fiabe/it/.
 export function generateStaticParams() {
-  return stories.map((s) => ({ slug: s.slug }));
+  return getStories().map((s) => ({ slug: s.slug }));
 }
 
 export default async function StoryPage({

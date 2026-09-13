@@ -1,0 +1,44 @@
+# Due amiche e un solo ombrello — 4-6 anni
+# Lo slug della fiaba è il nome di questo file; l'ordine delle pagine è
+# l'ordine in cui appaiono qui sotto.
+titolo: Due amiche e un solo ombrello
+descrizione: >-
+  Improvvisa pioggia sulla via di casa, un solo ombrello per due amiche.
+  Mati e Sole scoprono che condividere qualcosa di piccolo può renderlo
+  abbastanza grande per tutti.
+eta:
+  da: 4
+  a: 6
+temi: [condivisione, amicizia]
+salute: []
+copertina:
+  tinta: "#3f7ea8"
+  sagoma: umbrella
+pagine:
+  - testo: >-
+      Mati e Sole uscirono da scuola proprio mentre il cielo si apriva in un
+      temporale. Solo Mati aveva portato l'ombrello, piccolo e a righe blu.
+    tinta: "#6fa8c9"
+    sagoma: umbrella
+  - testo: >-
+      «Puoi stare sotto anche tu» disse Mati, ma l'ombrello era stretto, e a
+      ogni passo una spalla restava fuori, bagnata dalla pioggia fredda.
+    tinta: "#3f7ea8"
+    sagoma: umbrella
+  - testo: >-
+      Sole si fermò. «E se camminassimo più vicine, appoggiate una all'altra?»
+      Provarono, ridendo, ad andare alla stessa velocità, un passo dopo l'altro.
+    tinta: "#2b5b7a"
+    sagoma: umbrella
+  - testo: >-
+      Sotto quel piccolo cerchio a righe blu, strette l'una all'altra, non c'era
+      più spazio per il freddo. La pioggia batteva sopra, ma dentro faceva quasi
+      caldo.
+    tinta: "#234a63"
+    sagoma: umbrella
+  - testo: >-
+      Arrivarono a casa fradice solo sulle scarpe, ridendo a crepapelle. Da quel
+      giorno, ogni volta che pioveva, si cercavano prima ancora di uscire da
+      scuola.
+    tinta: "#3f7ea8"
+    sagoma: umbrella

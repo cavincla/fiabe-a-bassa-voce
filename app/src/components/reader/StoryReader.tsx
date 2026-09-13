@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
-import type { Story, StoryPage } from "@/lib/mock-stories";
+import type { Story, StoryPage } from "@/lib/story-types";
 import { PageArt } from "./PageArt";
 
 type FlipState = {

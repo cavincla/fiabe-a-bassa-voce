@@ -1,0 +1,46 @@
+# Il gatto che non voleva lavarsi — 3-5 anni
+# Lo slug della fiaba è il nome di questo file; l'ordine delle pagine è
+# l'ordine in cui appaiono qui sotto.
+titolo: Il gatto che non voleva lavarsi
+descrizione: >-
+  Baffo il gattino trova la propria lingua troppo faticosa per lavarsi il
+  pelo. Una giornata tra i cespugli gli mostra perché prendersi cura di sé è
+  un piccolo gesto d'amore.
+eta:
+  da: 3
+  a: 5
+temi: []
+salute: [igiene]
+copertina:
+  tinta: "#c96a5c"
+  sagoma: cat
+pagine:
+  - testo: >-
+      Baffo era il gattino più pigro del cortile. Ogni sera, quando sua madre
+      iniziava a lavargli il pelo con la lingua ruvida, lui scappava a
+      nascondersi dietro il vaso di gerani.
+    tinta: "#e08a7a"
+    sagoma: cat
+  - testo: >-
+      «È troppo lungo, troppo noioso!» miagolava. Preferiva rotolarsi nella
+      terra e nell'erba, lasciando che il pelo si riempisse di semini,
+      foglioline e piccoli grumi appiccicosi.
+    tinta: "#c96a5c"
+    sagoma: cat
+  - testo: >-
+      Un giorno provò a correre veloce come sempre, ma il pelo incollato gli
+      tirava, gli pizzicava, e persino il naso gli prudeva senza sosta.
+    tinta: "#a8503f"
+    sagoma: cat
+  - testo: >-
+      Sua madre lo trovò tutto arruffato dietro il vaso. Senza dire nulla,
+      cominciò a pulirlo pian piano, un ciuffo alla volta, con pazienza
+      infinita.
+    tinta: "#8a3f30"
+    sagoma: cat
+  - testo: >-
+      Baffo scoprì che, una volta pulito, correre era di nuovo leggero e veloce
+      come il vento. Da quella sera, aspettò lui stesso il momento di farsi
+      lavare il pelo.
+    tinta: "#c96a5c"
+    sagoma: cat

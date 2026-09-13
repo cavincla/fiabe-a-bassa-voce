@@ -4,12 +4,12 @@ PWA gratuita che aiuta i genitori a trovare fiabe per bambini, categorizzate per
 
 Il piano completo di evoluzione prodotto e tecnico è nell'artifact condiviso in conversazione (fasi 0–6, scelte di stack, roadmap lingue).
 
-Stack: **Next.js 16 + TypeScript + Tailwind CSS v4 + Prisma 7 + shadcn/ui**, dockerizzato con lo stesso pattern (utente non-root, uid/gid dell'host mappati nel container, stage `dev`/`build`/`assets`/`dist`) usato dal template Python di riferimento (`~/personale/template-project-python`) e già adottato da [`fanta-web`](../fanta-web)/[`fanta-api`](../fanta-api) — adattato qui per un'app Next.js con backend proprio (non un bundle statico servito da nginx: lo stage `dist` esegue il server standalone di Next.js con Node).
+Stack: **Next.js 16 + TypeScript + Tailwind CSS v4 + shadcn/ui**, **senza database**, dockerizzato con lo stesso pattern (utente non-root, uid/gid dell'host mappati nel container, stage `dev`/`build`/`assets`/`dist`) usato dal template Python di riferimento (`~/personale/template-project-python`) e già adottato da [`fanta-web`](../fanta-web)/[`fanta-api`](../fanta-api) — adattato qui per un'app Next.js con backend proprio (non un bundle statico servito da nginx: lo stage `dist` esegue il server standalone di Next.js con Node).
 
 Note tecniche di questa combinazione di versioni:
 
 - **Serwist forza webpack**: `next dev`/`next build` girano con `--webpack` (vedi `package.json`) perché Serwist (il service worker della PWA) non supporta ancora Turbopack, il bundler di default in Next.js 16.
-- **Prisma 7 usa i driver adapters**: niente più motore Rust nello schema (`datasource.url` è stato rimosso da `prisma/schema.prisma`); la connessione vive in `prisma.config.ts` (per la CLI) e in `src/lib/db.ts` (per l'app, via `@prisma/adapter-pg`). Lo stage `dist` del Dockerfile copia esplicitamente `@prisma/adapter-pg` e le sue dipendenze, perché il tracciamento file di Next.js per l'output standalone non le rileva da solo.
+- **Le fiabe sono file, non righe di tabella**: ogni fiaba è un YAML in `app/content/fiabe/<lingua>/`, letto e validato da `src/lib/stories.ts` durante `next build`, che pre-genera una pagina statica per ciascuna. Nessun database, nessuna connessione aperta, nessuna RAM occupata a runtime: il server in produzione serve HTML già pronto. Lo schema dei campi è in `app/content/fiabe/README.md`; un file incompleto **ferma il build** indicando file e campo. Il parser YAML è una dipendenza di sola compilazione.
 - **Dark mode**: toggle manuale con `next-themes` (pulsante luna/sole in home e in `/admin`), parte comunque da "system" come default.
 - **`src/proxy.ts`, non `middleware.ts`**: Next.js 16 ha rinominato il meccanismo. Protegge tutte le `/admin/*` con Supabase Auth (login email/password, un solo utente admin creato a mano su Supabase, nessuna registrazione pubblica). Se `NEXT_PUBLIC_SUPABASE_URL`/`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` non sono configurate, `/admin` resta aperta senza login (comportamento sicuro di default, non un errore) con un avviso in pagina.
 
@@ -21,13 +21,12 @@ Avvia l'ambiente di sviluppo dockerizzato:
 ./run.sh
 ```
 
-Questo builda l'immagine di sviluppo, avvia il container **app** e un Postgres locale (**db**), esegue `npm install`, sincronizza lo schema Prisma sul database (`prisma db push`) e infine avvia `next dev` con hot-reload, quindi l'app si aggiorna automaticamente ad ogni modifica sotto `app/src`.
+Questo builda l'immagine di sviluppo, avvia il container **app**, esegue `npm install` e infine avvia `next dev` con hot-reload, quindi l'app si aggiorna automaticamente ad ogni modifica sotto `app/src` e `app/content`. Nessun database da avviare: un solo container.
 
 Una volta avviato:
 
 - http://localhost:3000/ — area pubblica (elenco fiabe + lettore)
 - http://localhost:3000/admin — pannello di amministrazione
-- Postgres locale su `localhost:5433` (utente/password/db: `fiabe` / `fiabe_dev_password` / `fiabe`) — porta 5433 e non 5432 per non entrare in conflitto con il Postgres di `fanta-api`, se in esecuzione in parallelo
 
 Altri flag utili di `run.sh`:
 
@@ -41,8 +40,8 @@ Altri flag utili di `run.sh`:
 app/                  codice dell'applicazione Next.js (bind-mounted nel container)
   src/app/            route pubbliche, admin, API
   src/components/     componenti React (es. lettore multimediale)
-  src/lib/            client Prisma, dati di esempio
-  prisma/schema.prisma  modello dati
+  src/lib/            loader dei contenuti (stories.ts) e tipi condivisi
+  content/fiabe/it/   le fiabe, un file YAML ciascuna (+ README con lo schema)
 .build/dockerfiles/   Dockerfile multi-stage + fix-perm.sh
 docker-compose.yml / run.sh   ambiente di sviluppo dockerizzato
 .data/bob-s-home/     home persistente dell'utente del container (solo .bashrc versionato)
@@ -50,7 +49,7 @@ docker-compose.yml / run.sh   ambiente di sviluppo dockerizzato
 
 ## Variabili d'ambiente
 
-In sviluppo `docker-compose.yml` imposta già `DATABASE_URL` verso il Postgres locale: non serve configurare nulla per partire. `app/.env.example` documenta le variabili per **Supabase** (staging/produzione, o per eseguire l'app senza Docker) — copiale in `app/.env` quando servono davvero:
+Per far girare il sito non serve configurare nulla: i contenuti sono file nel repository. `app/.env.example` documenta le variabili **Supabase**, che servono solo a proteggere `/admin` con un login — copiale in `app/.env` quando ti servono davvero:
 
 ```bash
 cp app/.env.example app/.env
@@ -58,10 +57,10 @@ cp app/.env.example app/.env
 
 ## Cosa manca prima di andare online
 
-1. **Creare il progetto Supabase** — richiede login su supabase.com; sblocca il login admin (già scritto, da testare) e l'upload immagini. Istruzioni passo-passo in `STATO-PROGETTO.md`.
-2. **Upload immagini reale**: il form storia accetta solo URL; l'upload diretto verso Supabase Storage è da collegare.
-3. **Icone PWA**: `app/public/icons/icon.svg` è un placeholder generato; va sostituito con un'illustrazione vera (idealmente anche in PNG per compatibilità iOS).
-4. **Deploy**: due strade percorribili, non a vicenda esclusive — collegare il repository GitHub a Vercel (più veloce, zero-config per Next.js), oppure pubblicare l'immagine `dist` già pronta (`./run.sh -i` per provarla in locale) su un host Docker qualsiasi.
+1. **Illustrazioni vere**: oggi ogni pagina ha un'illustrazione generata da codice (`PageArt`) a partire da un colore e una sagoma. Vanno sostituite da immagini reali, da tenere nel repository accanto ai testi e servire come file statici.
+2. **Icone PWA**: `app/public/icons/icon.svg` è un placeholder generato; va sostituito con un'illustrazione vera (idealmente anche in PNG per compatibilità iOS).
+3. **Deploy**: essendo tutto pre-generato, va bene qualsiasi hosting statico gratuito, oppure l'immagine `dist` già pronta (`./run.sh -i` per provarla in locale) su un host Docker qualsiasi. Su hosting statico l'unica cosa da rivedere è `/admin`, che con Supabase configurato richiede un runtime.
+4. **Login admin** (facoltativo): `/admin` è di sola lettura, ma finché Supabase non è configurato resta accessibile a chiunque. Istruzioni in `STATO-PROGETTO.md`.
 
 ## Aggiungere dipendenze
 

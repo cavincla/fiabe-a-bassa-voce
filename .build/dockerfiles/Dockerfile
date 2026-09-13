@@ -16,11 +16,6 @@ ARG DOCKER_GROUP=bob
 ENV DOCKER_USER=${DOCKER_USER} \
     DOCKER_GROUP=${DOCKER_GROUP}
 
-# node:slim strips OpenSSL, which Prisma's query/schema engine binaries
-# need at runtime (without it they fail silently with no error message).
-RUN apt-get update && apt-get install -y --no-install-recommends openssl \
-    && rm -rf /var/lib/apt/lists/*
-
 # node:slim already ships a uid/gid 1000 "node" user — rename it instead
 # of creating a colliding one, so bob keeps the same fixed 1000:1000.
 RUN set -ex; groupmod -n ${DOCKER_GROUP} node && \
@@ -35,7 +30,7 @@ WORKDIR /app
 # bob instead of defaulting to root.
 RUN mkdir -p /app/node_modules && chown -R ${DOCKER_USER}:${DOCKER_GROUP} /app/node_modules
 
-# npm-installed binaries (next, prisma, eslint, ...) end up in node_modules/.bin
+# npm-installed binaries (next, eslint, ...) end up in node_modules/.bin
 ENV PATH="/app/node_modules/.bin:${PATH}"
 
 USER ${DOCKER_USER}
@@ -91,14 +86,9 @@ RUN npm ci
 
 COPY --chown=${DOCKER_USER}:${DOCKER_GROUP} app/ .
 
-# `prisma generate` only reads prisma/schema.prisma to emit the client — it
-# never opens a database connection — but prisma.config.ts's env("DATABASE_URL")
-# now throws at load time if the variable is unset. This placeholder satisfies
-# that check at build time; the real value is injected at runtime (see
-# docker-compose.yml / docker run -e).
-ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder"
-RUN npx prisma generate
-
+# Le fiabe sono file YAML sotto app/content/ (copiati con il resto del
+# sorgente qui sopra): `next build` li legge, li valida e pre-genera una pagina
+# statica per ciascuna. Nessun database da raggiungere in fase di build.
 RUN npm run build
 
 #
@@ -112,11 +102,6 @@ FROM node:${NODE_VERSION}-slim AS dist
 ARG DOCKER_USER=bob
 ARG DOCKER_GROUP=bob
 
-# Same OpenSSL requirement as the base stage — Prisma's query engine needs
-# it at runtime too, not just when running the CLI.
-RUN apt-get update && apt-get install -y --no-install-recommends openssl \
-    && rm -rf /var/lib/apt/lists/*
-
 RUN set -ex; groupmod -n ${DOCKER_GROUP} node && \
     usermod -l ${DOCKER_USER} -d /home/${DOCKER_USER} -m node
 
@@ -125,14 +110,6 @@ WORKDIR /app
 COPY --from=assets --chown=${DOCKER_USER}:${DOCKER_GROUP} /app/.next/standalone ./
 COPY --from=assets --chown=${DOCKER_USER}:${DOCKER_GROUP} /app/.next/static ./.next/static
 COPY --from=assets --chown=${DOCKER_USER}:${DOCKER_GROUP} /app/public ./public
-# Next.js's standalone output tracing doesn't reliably pick up Prisma's
-# generated client, query engine binary or driver adapter packages, so
-# they're copied explicitly.
-COPY --from=assets --chown=${DOCKER_USER}:${DOCKER_GROUP} /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=assets --chown=${DOCKER_USER}:${DOCKER_GROUP} /app/node_modules/@prisma/client ./node_modules/@prisma/client
-COPY --from=assets --chown=${DOCKER_USER}:${DOCKER_GROUP} /app/node_modules/@prisma/adapter-pg ./node_modules/@prisma/adapter-pg
-COPY --from=assets --chown=${DOCKER_USER}:${DOCKER_GROUP} /app/node_modules/@prisma/driver-adapter-utils ./node_modules/@prisma/driver-adapter-utils
-COPY --from=assets --chown=${DOCKER_USER}:${DOCKER_GROUP} /app/node_modules/postgres-array ./node_modules/postgres-array
 
 USER ${DOCKER_USER}
 

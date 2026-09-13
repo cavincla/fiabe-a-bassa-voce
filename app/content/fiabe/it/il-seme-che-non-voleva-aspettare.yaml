@@ -1,0 +1,45 @@
+# Il seme che non voleva aspettare — 4-6 anni
+# Lo slug della fiaba è il nome di questo file; l'ordine delle pagine è
+# l'ordine in cui appaiono qui sotto.
+titolo: Il seme che non voleva aspettare
+descrizione: >-
+  Nocciolina il seme vuole diventare subito un albero enorme. Una lumaca
+  gentile le insegna che le cose belle, per crescere, hanno bisogno di
+  tempo.
+eta:
+  da: 4
+  a: 6
+temi: [pazienza]
+salute: []
+copertina:
+  tinta: "#4a7c3f"
+  sagoma: sprout
+pagine:
+  - testo: >-
+      Nocciolina era un piccolo seme appena caduto nella terra scura. «Voglio
+      essere già un albero!» borbottava, spingendo con tutte le sue forze.
+    tinta: "#6fae55"
+    sagoma: sprout
+  - testo: >-
+      Passò una lumaca lucida e lenta. «Perché tanta fretta?» chiese. «Perché
+      aspettare è noiosissimo!» rispose Nocciolina, spingendo ancora più forte.
+    tinta: "#4a7c3f"
+    sagoma: sprout
+  - testo: >-
+      «Guarda me» disse la lumaca. «Faccio un passo alla volta, eppure arrivo
+      sempre dove voglio andare.» Nocciolina si fermò un momento, quasi senza
+      fiato.
+    tinta: "#dfc36a"
+    sagoma: sprout
+  - testo: >-
+      Così Nocciolina smise di spingere e cominciò semplicemente a respirare la
+      pioggia, il sole, il buio della notte. Un giorno dopo l'altro, senza più
+      fretta.
+    tinta: "#3f6b4a"
+    sagoma: sprout
+  - testo: >-
+      Una mattina di primavera, senza che se ne accorgesse, una minuscola foglia
+      verde spuntò dalla terra. Le cose belle, aveva imparato, arrivano quando è
+      il momento giusto.
+    tinta: "#2f5c3f"
+    sagoma: sprout

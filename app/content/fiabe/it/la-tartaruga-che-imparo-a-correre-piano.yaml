@@ -1,0 +1,47 @@
+# La tartaruga che imparò a correre piano — 4-6 anni
+# Lo slug della fiaba è il nome di questo file; l'ordine delle pagine è
+# l'ordine in cui appaiono qui sotto.
+titolo: La tartaruga che imparò a correre piano
+descrizione: >-
+  Tilla la tartaruga vuole tenere il passo dei suoi amici veloci e finisce
+  sempre stanca e triste. Un vecchio airone del laghetto le insegna il
+  valore di andare alla propria velocità.
+eta:
+  da: 4
+  a: 6
+temi: [pazienza]
+salute: [movimento]
+copertina:
+  tinta: "#3f6b59"
+  sagoma: turtle
+pagine:
+  - testo: >-
+      Tilla guardava i suoi amici scoiattoli e lepri sfrecciare da un capo
+      all'altro del prato. Provava a correre anche lei, ma dopo tre passi era
+      già senza fiato.
+    tinta: "#4a8a6e"
+    sagoma: turtle
+  - testo: >-
+      «Aspettatemi!» gridava sempre, arrivando ultima, con le zampe stanche e il
+      cuore un po' triste. Gli altri, gentili, la aspettavano, ma lei si sentiva
+      comunque lenta e sbagliata.
+    tinta: "#3f6b59"
+    sagoma: turtle
+  - testo: >-
+      Un vecchio airone del laghetto la vide fermarsi, sfinita. «Perché corri
+      come una lepre, se sei nata tartaruga?» le chiese, senza cattiveria, solo
+      con curiosità.
+    tinta: "#2f5346"
+    sagoma: turtle
+  - testo: >-
+      Tilla ci pensò su. Quel giorno, invece di correre, camminò con calma lungo
+      il sentiero, osservando ogni fiore, ogni sasso lucido, ogni nuvola nel
+      cielo.
+    tinta: "#274238"
+    sagoma: turtle
+  - testo: >-
+      Arrivò ultima, come sempre. Ma per la prima volta non era stanca né
+      triste: aveva visto cose che gli altri, di corsa, si erano persi del
+      tutto.
+    tinta: "#3f6b59"
+    sagoma: turtle

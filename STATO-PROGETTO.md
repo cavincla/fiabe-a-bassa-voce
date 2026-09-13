@@ -21,6 +21,11 @@ tecnico e i prossimi passi immediati, non ripete il piano di prodotto.
 
 ## Cosa esiste già
 
+> Questa sezione è un registro in ordine cronologico. Le voci che parlano di
+> Prisma, Postgres e dell'editor di storie nell'admin descrivono com'era il
+> progetto fino al 12 settembre 2026: il database è stato rimosso il giorno
+> dopo (ultima voce della sezione).
+
 **Scaffold applicativo** (commit `a1c8323`):
 - Area pubblica: home con filtri età/morale, lettore multimediale a pagine
   (`/storie/[slug]`) con due fiabe di esempio scritte per l'occasione
@@ -127,6 +132,35 @@ del 2 settembre 2026):
   avanti/indietro fino all'ultima pagina, filtri con le nuove categorie,
   tema chiaro e scuro, nessun errore in console
 
+**Contenuti su file, database rimosso** (sessione del 13 settembre 2026) —
+scelta di prodotto: il sito nasce gratuito e interamente a carico di chi lo
+gestisce, quindi niente database gestito e niente processi che consumino RAM o
+CPU a runtime.
+- Le 12 fiabe sono ora **file YAML** in `app/content/fiabe/it/`, uno per fiaba,
+  con lo schema documentato in `app/content/fiabe/README.md`. Migrazione
+  verificata: 12 fiabe e 58 pagine identiche ai testi precedenti.
+- `app/src/lib/stories.ts` li legge e li **valida durante `next build`**: un
+  campo mancante o un valore fuori elenco ferma il build nominando file e campo
+  (provato per davvero su colore non valido e tema inesistente). I tipi
+  condivisi stanno in `story-types.ts`, importabili anche dai componenti client.
+- Tutto il sito è pre-generato: home e `/admin` statiche, una pagina SSG per
+  ciascuna fiaba. A runtime i file YAML non vengono mai riletti.
+- **Rimosso lo strato database**, che oltre a pesare impediva perfino il build
+  (`prisma generate` pretende `DATABASE_URL`): via `prisma/schema.prisma`,
+  `prisma.config.ts`, `src/lib/db.ts`, l'API `POST /api/admin/storie` e il form
+  `/admin/storie/nuova`; via le dipendenze `prisma`, `@prisma/client`,
+  `@prisma/adapter-pg`, `pg`, `@types/pg`; via il servizio `db` e il volume
+  `pgdata` da `docker-compose.yml`, `prisma generate`/`db push` da `run.sh`, e
+  dal Dockerfile sia OpenSSL sia le cinque copie esplicite dei pacchetti Prisma
+  nello stage `dist`. Una sola dipendenza aggiunta (`yaml`), usata solo in build.
+- `/admin` resta come **vista di redazione in sola lettura** (elenco fiabe, età,
+  temi, numero di pagine, letti dai file). Il login Supabase è stato lasciato
+  intatto: non costa nulla a runtime e servirà ancora.
+- Conseguenza da tenere a mente: non esiste più un modo di aggiungere fiabe dal
+  browser. Si aggiunge un file e si ricostruisce. Se un domani servisse un
+  editor senza codice, la strada è un CMS che scrive sul repository, non un
+  database.
+
 ## Come riprendere il lavoro
 
 ```bash
@@ -134,12 +168,11 @@ cd ~/personale/fiabe-a-bassa-voce
 ./run.sh
 ```
 
-Builda, avvia `app` + `db`, installa le dipendenze, sincronizza lo schema
-Prisma e lancia `next dev`. Poi:
+Builda, avvia il container `app`, installa le dipendenze e lancia
+`next dev`. Non c'è nessun database da avviare né schema da sincronizzare. Poi:
 
 - http://localhost:3000/ — area pubblica
-- http://localhost:3000/admin — pannello admin
-- Postgres su `localhost:5433` (`fiabe` / `fiabe_dev_password` / `fiabe`)
+- http://localhost:3000/admin — vista di redazione (sola lettura)
 
 ## Decisioni tecniche da tenere a mente
 
@@ -147,13 +180,12 @@ Prisma e lancia `next dev`. Poi:
   Serwist (il service worker PWA) non supporta ancora Turbopack, il
   bundler di default in Next 16. Da rimuovere quando Serwist lo supporterà
   (issue: serwist/serwist#54).
-- **Prisma 7 = driver adapter**: la connessione non è più nello schema
-  Prisma (`prisma/schema.prisma` non ha più `url`), ma in
-  `app/prisma.config.ts` (per la CLI: `db push`, `migrate`, `studio`) e in
-  `app/src/lib/db.ts` (per l'app, via `@prisma/adapter-pg`). Nel Dockerfile,
-  lo stage `dist` copia esplicitamente `@prisma/adapter-pg` e le sue
-  dipendenze nel bundle standalone, perché il tracciamento file di Next.js
-  non le rileva da sé (stesso problema già noto per `.prisma`/`@prisma/client`).
+- **Niente database, per scelta**: i contenuti sono file YAML versionati con
+  il codice e il sito è tutto pre-generato. Prima di reintrodurre un database,
+  chiediti se il dato in questione cambia davvero *senza* un deploy: i testi
+  delle fiabe no. Cambierebbero le cose per utente (preferiti, "continua a
+  leggere"), che però stanno bene nel browser (`localStorage`) finché non serve
+  sincronizzarle tra dispositivi.
 - **`src/proxy.ts`, non `middleware.ts`**: Next.js 16 ha rinominato il
   meccanismo. Se cerchi documentazione o esempi più vecchi troverai
   `middleware.ts` — stesso concetto, nome diverso in questa versione.
@@ -163,9 +195,10 @@ Prisma e lancia `next dev`. Poi:
 
 ## Prossimi passi
 
-1. **Creare il progetto Supabase e collegarlo** — è il vero collo di
-   bottiglia, sblocca login admin, upload immagini e (in parte) il
-   deploy. Serve login su supabase.com:
+1. **Illustrazioni vere** — è il vero collo di bottiglia estetico: oggi ogni
+   pagina ha un'illustrazione generata da codice. Le immagini definitive vanno
+   nel repository accanto ai testi e servite come file statici. Il login
+   Supabase qui sotto resta facoltativo (serve solo a proteggere `/admin`):
    1. Crea un nuovo progetto (nome libero, password del DB a scelta —
       non serve ricordarla se non si userà anche come Postgres di
       produzione, scegli una regione europea)
@@ -181,8 +214,8 @@ Prisma e lancia `next dev`. Poi:
    5. Vai su `/admin/login` e prova ad accedere — **questo è il primo
       test reale del flusso di login**, non ancora verificato in questa
       sessione
-2. **Upload immagini reale** — il form storia accetta solo URL; da
-   collegare a Supabase Storage (stesso progetto del punto 1).
+2. **Lettore immersivo e home editoriale** — direzione di design approvata
+   in anteprima, da portare in React (vedi l'artifact "Il Rito della Sera").
 3. **Icone PWA vere** — `app/public/icons/icon.svg` è un placeholder
    generato; da sostituire con un'illustrazione vera (anche in PNG, per
    compatibilità iOS).
@@ -196,6 +229,7 @@ Prisma e lancia `next dev`. Poi:
 
 - `README.md` — guida rapida stack + comandi (più sintetica di questo file)
 - `.build/dockerfiles/Dockerfile` — build multi-stage commentata
-- `app/prisma/schema.prisma` — modello dati
-- `app/src/lib/mock-stories.ts` — le due fiabe di esempio nell'area pubblica
+- `app/content/fiabe/README.md` — schema dei file delle fiabe, campo per campo
+- `app/content/fiabe/it/*.yaml` — le fiabe pubblicate
+- `app/src/lib/stories.ts` — lettura e validazione dei contenuti in fase di build
 - `app/src/lib/supabase/` — client browser/server e logica del proxy di autenticazione

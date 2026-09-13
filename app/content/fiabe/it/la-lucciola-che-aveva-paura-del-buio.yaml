@@ -1,0 +1,45 @@
+# La lucciola che aveva paura del buio — 3-5 anni
+# Lo slug della fiaba è il nome di questo file; l'ordine delle pagine è
+# l'ordine in cui appaiono qui sotto.
+titolo: La lucciola che aveva paura del buio
+descrizione: >-
+  Buffa la lucciola ha una lucina tutta sua, ma di notte si nasconde lo
+  stesso. Le altre lucciole le mostrano che la propria luce basta a
+  rischiarare la paura.
+eta:
+  da: 3
+  a: 5
+temi: [coraggio]
+salute: [sonno]
+copertina:
+  tinta: "#f4c15a"
+  sagoma: firefly
+pagine:
+  - testo: >-
+      Buffa era una lucciola con una lucina gialla proprio sulla pancia. Ma ogni
+      sera, quando il cielo si scuriva, si nascondeva sotto una foglia tremando.
+    tinta: "#d9a94d"
+    sagoma: firefly
+  - testo: >-
+      «Il buio è troppo grande» diceva. «E se mi perdessi dentro?» Le altre
+      lucciole danzavano nel prato, lasciando dietro di sé piccole scie dorate.
+    tinta: "#33285a"
+    sagoma: firefly
+  - testo: >-
+      Una lucciola anziana si posò accanto a lei. «Non devi vedere tutto il buio
+      insieme» le disse piano. «Basta accendere la tua luce, un pezzetto alla
+      volta.»
+    tinta: "#171433"
+    sagoma: firefly
+  - testo: >-
+      Buffa fece un respiro profondo e lasciò accendere la sua lucina. Il buio
+      intorno non sparì, ma quel piccolo cerchio dorato era tutto suo, ed era
+      abbastanza.
+    tinta: "#241f45"
+    sagoma: firefly
+  - testo: >-
+      Quella notte Buffa volò tra i fili d'erba, e per la prima volta il buio
+      non le sembrò più una cosa da cui scappare, ma un cielo tutto da
+      illuminare.
+    tinta: "#f4c15a"
+    sagoma: firefly
