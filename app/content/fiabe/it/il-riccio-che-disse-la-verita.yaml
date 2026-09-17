@@ -11,36 +11,32 @@ eta:
   a: 7
 temi: [onestà]
 salute: []
-copertina:
-  tinta: "#8a5a3f"
-  sagoma: hedgehog
+# Direzione artistica della fiaba: la scena viene composta a strati
+# (cielo, bagliore, colline, alberi, personaggio) da questi colori, e la
+# luce si abbassa da sola pagina dopo pagina.
+scena:
+  cielo: ["#D0A075", "#8A5A3F"]
+  colline: ["#6B4530", "#462C1E"]
+  luce: "#FFDCA6"
+  sagoma: riccio
+  notte: false
 pagine:
   - testo: >-
       Pino stava giocando a palla in salotto, anche se sapeva di non doverlo
       fare. La palla rimbalzò contro la mensola e il fischietto di legno del
       nonno cadde, spaccandosi in due.
-    tinta: "#a9754f"
-    sagoma: hedgehog
   - testo: >-
       Il cuore di Pino batteva forte. Prese i due pezzi e li nascose in fondo al
       cassetto, sotto le calze. «Nessuno se ne accorgerà» si disse, ma non ci
       credeva davvero.
-    tinta: "#8a5a3f"
-    sagoma: hedgehog
   - testo: >-
       Per tutta la sera, ogni volta che il nonno gli sorrideva, Pino sentiva un
       peso strano nello stomaco, come un sasso ingoiato per sbaglio.
-    tinta: "#6b4530"
-    sagoma: hedgehog
   - testo: >-
       Prima di andare a dormire, Pino tornò in salotto con i due pezzi in mano.
       «Nonno, ho rotto il tuo fischietto giocando dove non dovevo. Mi dispiace
       tanto.»
-    tinta: "#543522"
-    sagoma: hedgehog
   - testo: >-
       Il nonno lo guardò a lungo, poi sorrise piano. «Un fischietto si aggiusta
       con la colla. La verità di un nipote, quella non si aggiusta se si rompe.»
       Il sasso nello stomaco di Pino sparì.
-    tinta: "#8a5a3f"
-    sagoma: hedgehog

@@ -21,18 +21,28 @@ eta:
   a: 5
 temi: [coraggio]
 salute: [alimentazione]
-copertina:
-  tinta: "#e07a3f"
-  sagoma: carrot
+scena:
+  cielo: ["#F6BE6E", "#DE7B3F"]
+  colline: ["#A85A16", "#6B3A10"]
+  luce: "#FFE6BB"
+  sagoma: carota
+  notte: false
 pagine:
   - testo: >-
       Cico guardava il piatto con sospetto. C'era di nuovo quella cosa
       arancione e croccante che sua mamma chiamava carota.
-    tinta: "#e07a3f"
-    sagoma: carrot
 ```
 
 L'ordine delle pagine è l'ordine in cui appaiono nel file: non serve numerarle.
+
+## La scena
+
+`scena` è la **direzione artistica di tutta la fiaba**: da quei pochi colori il
+sito compone ogni illustrazione a strati — cielo, bagliore della lampada,
+stelle, due colline, alberi e il personaggio — copertina compresa. Non serve
+scegliere un colore per pagina: **la luce si abbassa da sola** man mano che la
+storia avanza, fino al buonanotte. Se una singola pagina mostra un altro
+protagonista, si aggiunge solo lì `sagoma: <nome>`.
 
 ## Le regole, campo per campo
 
@@ -43,11 +53,15 @@ L'ordine delle pagine è l'ordine in cui appaiono nel file: non serve numerarle.
 | `eta.da` / `eta.a` | sì | Numeri interi da 0 a 18, con `da` ≤ `a`. |
 | `temi` | no | Elenco tra: `coraggio`, `condivisione`, `amicizia`, `pazienza`, `onestà`, `gentilezza`. Sono i filtri della home. |
 | `salute` | no | Elenco tra: `alimentazione`, `sonno`, `movimento`, `igiene`. |
-| `copertina.tinta` | sì | Colore esadecimale a 6 cifre, es. `"#e07a3f"` — va tra apici, altrimenti YAML legge `#` come inizio di commento. |
-| `copertina.sagoma` | no | Una tra: `carrot`, `raven`, `sprout`, `firefly`, `umbrella`, `hedgehog`, `turtle`, `cat`, `fox`, `bear`, `dragon`, `moon`. |
+| `scena.cielo` | sì | Coppia di colori esadecimali: alto e basso del cielo. Fra apici, altrimenti YAML legge `#` come commento. |
+| `scena.colline` | sì | Coppia di colori: collina lontana e collina vicina. |
+| `scena.luce` | sì | Il colore della luce calda (la lampada, la luna, le lucciole). |
+| `scena.sagoma` | sì | Il personaggio, una tra: `carota`, `corvo`, `germoglio`, `lucciola`, `ombrello`, `riccio`, `tartaruga`, `gatto`, `volpe`, `orso`, `drago`, `bambina`. |
+| `scena.notte` | no | `true` accende stelle e luna. Predefinito `false`. |
+| `scena.atmosfera` | no | `neve`, `pioggia` o `lucciole`: cosa si muove nell'aria. |
+| `scena.lunaGrande` | no | `true` quando la luna è la protagonista, non un dettaglio. |
 | `pagine[].testo` | sì | Il testo della pagina. |
-| `pagine[].tinta` | sì | Come `copertina.tinta`. |
-| `pagine[].sagoma` | no | Come `copertina.sagoma`. |
+| `pagine[].sagoma` | no | Solo se *questa* pagina mostra un personaggio diverso. |
 
 Se un campo è sbagliato o manca, **il build si ferma** con un messaggio che
 nomina il file e il campo: nessuna fiaba rotta arriva online.

@@ -11,35 +11,31 @@ eta:
   a: 6
 temi: [pazienza]
 salute: []
-copertina:
-  tinta: "#4a7c3f"
-  sagoma: sprout
+# Direzione artistica della fiaba: la scena viene composta a strati
+# (cielo, bagliore, colline, alberi, personaggio) da questi colori, e la
+# luce si abbassa da sola pagina dopo pagina.
+scena:
+  cielo: ["#C8E6AE", "#72B156"]
+  colline: ["#4A7C3F", "#2C5739"]
+  luce: "#FFF6CE"
+  sagoma: germoglio
+  notte: false
 pagine:
   - testo: >-
       Nocciolina era un piccolo seme appena caduto nella terra scura. «Voglio
       essere già un albero!» borbottava, spingendo con tutte le sue forze.
-    tinta: "#6fae55"
-    sagoma: sprout
   - testo: >-
       Passò una lumaca lucida e lenta. «Perché tanta fretta?» chiese. «Perché
       aspettare è noiosissimo!» rispose Nocciolina, spingendo ancora più forte.
-    tinta: "#4a7c3f"
-    sagoma: sprout
   - testo: >-
       «Guarda me» disse la lumaca. «Faccio un passo alla volta, eppure arrivo
       sempre dove voglio andare.» Nocciolina si fermò un momento, quasi senza
       fiato.
-    tinta: "#dfc36a"
-    sagoma: sprout
   - testo: >-
       Così Nocciolina smise di spingere e cominciò semplicemente a respirare la
       pioggia, il sole, il buio della notte. Un giorno dopo l'altro, senza più
       fretta.
-    tinta: "#3f6b4a"
-    sagoma: sprout
   - testo: >-
       Una mattina di primavera, senza che se ne accorgesse, una minuscola foglia
       verde spuntò dalla terra. Le cose belle, aveva imparato, arrivano quando è
       il momento giusto.
-    tinta: "#2f5c3f"
-    sagoma: sprout

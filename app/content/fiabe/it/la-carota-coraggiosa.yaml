@@ -11,28 +11,26 @@ eta:
   a: 5
 temi: [coraggio]
 salute: [alimentazione]
-copertina:
-  tinta: "#e07a3f"
-  sagoma: carrot
+# Direzione artistica della fiaba: la scena viene composta a strati
+# (cielo, bagliore, colline, alberi, personaggio) da questi colori, e la
+# luce si abbassa da sola pagina dopo pagina.
+scena:
+  cielo: ["#F6BE6E", "#DE7B3F"]
+  colline: ["#A85A16", "#6B3A10"]
+  luce: "#FFE6BB"
+  sagoma: carota
+  notte: false
 pagine:
   - testo: >-
       Cico guardava il piatto con sospetto. C'era di nuovo quella cosa arancione
       e croccante che sua mamma chiamava carota.
-    tinta: "#e07a3f"
-    sagoma: carrot
   - testo: >-
       «Non la voglio» disse Cico, incrociando le braccia. Ma la carota, con sua
       grande sorpresa, gli strizzò l'occhio.
-    tinta: "#d9a94d"
-    sagoma: carrot
   - testo: >-
       «Mi chiamo Carotina» disse la verdura «e so che fa paura provare cose
       nuove. Ma un piccolo morso è un piccolo atto di coraggio.»
-    tinta: "#6e8b7a"
-    sagoma: carrot
   - testo: >-
       Cico ci pensò su, poi ne prese un pezzettino. Croccante, dolce,
       buonissima! Da quella sera, ogni verdura nuova divenne una piccola
       avventura.
-    tinta: "#3f6b59"
-    sagoma: carrot

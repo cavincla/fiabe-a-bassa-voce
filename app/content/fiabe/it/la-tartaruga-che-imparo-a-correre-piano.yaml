@@ -11,37 +11,33 @@ eta:
   a: 6
 temi: [pazienza]
 salute: [movimento]
-copertina:
-  tinta: "#3f6b59"
-  sagoma: turtle
+# Direzione artistica della fiaba: la scena viene composta a strati
+# (cielo, bagliore, colline, alberi, personaggio) da questi colori, e la
+# luce si abbassa da sola pagina dopo pagina.
+scena:
+  cielo: ["#96D6BA", "#4A8A6E"]
+  colline: ["#3F6B59", "#243F35"]
+  luce: "#FFF8D6"
+  sagoma: tartaruga
+  notte: false
 pagine:
   - testo: >-
       Tilla guardava i suoi amici scoiattoli e lepri sfrecciare da un capo
       all'altro del prato. Provava a correre anche lei, ma dopo tre passi era
       già senza fiato.
-    tinta: "#4a8a6e"
-    sagoma: turtle
   - testo: >-
       «Aspettatemi!» gridava sempre, arrivando ultima, con le zampe stanche e il
       cuore un po' triste. Gli altri, gentili, la aspettavano, ma lei si sentiva
       comunque lenta e sbagliata.
-    tinta: "#3f6b59"
-    sagoma: turtle
   - testo: >-
       Un vecchio airone del laghetto la vide fermarsi, sfinita. «Perché corri
       come una lepre, se sei nata tartaruga?» le chiese, senza cattiveria, solo
       con curiosità.
-    tinta: "#2f5346"
-    sagoma: turtle
   - testo: >-
       Tilla ci pensò su. Quel giorno, invece di correre, camminò con calma lungo
       il sentiero, osservando ogni fiore, ogni sasso lucido, ogni nuvola nel
       cielo.
-    tinta: "#274238"
-    sagoma: turtle
   - testo: >-
       Arrivò ultima, come sempre. Ma per la prima volta non era stanca né
       triste: aveva visto cose che gli altri, di corsa, si erano persi del
       tutto.
-    tinta: "#3f6b59"
-    sagoma: turtle

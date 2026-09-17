@@ -2,9 +2,9 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import type { HealthTopic, MoralTopic, Story } from "@/lib/story-types";
+import { readingMinutes, type HealthTopic, type MoralTopic, type Story } from "@/lib/story-types";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { PageArt } from "@/components/reader/PageArt";
+import { StoryScene } from "@/components/reader/StoryScene";
 
 const moralLabels: Record<MoralTopic, string> = {
   coraggio: "Coraggio",
@@ -122,8 +122,17 @@ export function StoryBrowser({ stories }: { stories: Story[] }) {
                 href={`/storie/${s.slug}`}
                 className="block overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 hover:shadow-[0_16px_32px_-18px_rgba(23,20,51,0.35)]"
               >
-                <div className="h-32 w-full">
-                  <PageArt seed={s.coverSeed} label={s.title} icon={s.coverIcon} />
+                <div className="relative h-36 w-full overflow-hidden">
+                  <StoryScene
+                    scene={s.scene}
+                    uid={`${s.slug}-card`}
+                    label={s.title}
+                    shape="wide"
+                    className="h-full w-full"
+                  />
+                  <span className="absolute bottom-2 right-2 rounded-full bg-black/45 px-2 py-0.5 text-xs font-semibold text-white backdrop-blur">
+                    {readingMinutes(s)} min
+                  </span>
                 </div>
                 <div className="p-4">
                   <h2 className="font-heading text-lg font-semibold text-card-foreground">

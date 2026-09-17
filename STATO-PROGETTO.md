@@ -161,6 +161,47 @@ CPU a runtime.
   editor senza codice, la strada è un CMS che scrive sul repository, non un
   database.
 
+**Lettore immersivo e illustrazioni a carta stratificata** (sessione del
+17 settembre 2026) — prima tranche della direzione approvata nell'artifact
+"Il Rito della Sera" (https://claude.ai/code/artifact/e5aba86f-770e-452f-85ae-c5fd1e735015).
+- **Illustrazioni**: `PageArt` (gradiente + sagoma piatta) sostituita da
+  `StoryScene`, che compone la scena a strati — cielo, bagliore della lampada,
+  stelle e luna, due colline, alberi, personaggio, grana e vignettatura — con
+  neve/pioggia/lucciole dove serve. Il rumore è pseudo-casuale con seme
+  derivato dai prop, non `Math.random()`: server e client devono generare lo
+  stesso SVG, altrimenti React segnala un errore di hydration. Due impianti
+  (`tall`/`wide`) perché una scena orizzontale ritagliata su un telefono perde
+  cielo, orizzonte e personaggio insieme.
+- **Contenuti semplificati**: al posto di un colore per pagina, ogni fiaba ha
+  una sola direzione artistica in `scena:` (cielo, colline, luce, sagoma,
+  notte, atmosfera). Sono spariti 58 campi `tinta` dai file: **la luce si
+  abbassa da sola** in funzione della pagina. `pagine[].sagoma` resta come
+  eccezione, per una pagina che mostri un altro protagonista.
+- **`StoryReader` riscritto**: la copertina resta nel flusso della pagina, ma
+  aprendola si entra in un livello immersivo a tutto schermo — illustrazione a
+  pieno formato col testo su velatura, **doppia pagina da 64rem in su**
+  (illustrazione a sinistra, testo sulla carta a destra, ombra del dorso al
+  centro). Si sfoglia **trascinando col dito** (la pagina segue e gira se si
+  supera la metà), o con zone di tap, pulsanti e frecce. La luce cala pagina
+  dopo pagina fino a **"Buonanotte"**, con "Spegni la luce" che porta al nero.
+  Il **tasto indietro del telefono chiude il libro** invece di uscire dal sito
+  (`history.pushState` + `popstate`), e chi ha chiesto meno animazioni cambia
+  pagina di scatto (`useSyncExternalStore` su `prefers-reduced-motion`).
+- **Pagina della fiaba**: metadati per la condivisione (`generateMetadata`),
+  minuti di lettura calcolati dal testo, e **il testo completo in chiaro** sotto
+  il libro — serve a chi legge dallo schermo, agli screen reader e ai motori di
+  ricerca, che per un sito gratuito sono l'unico canale di scoperta.
+- **Verificato** con Playwright su telefono e desktop: apertura, sfoglio col
+  trascinamento (`1 di 5` → `2 di 5`), luce che si abbassa, buonanotte, spegni
+  la luce, ritorno alla copertina, tasto indietro che chiude, doppia pagina su
+  desktop, nessun errore in console. Due difetti trovati così e corretti: il
+  pannello del buonanotte era trasparente (una utility Tailwind che contiene
+  gradiente *e* colore non produce il fondo opaco: ora è stile inline) e il
+  contatore restava sulla pagina uscente durante lo sfoglio.
+- Non ancora fatto, prossimo passo naturale: **la voce narrante** (nel mockup
+  era un prototipo con la sintesi del browser) e poi la **home editoriale** con
+  "Stasera" e gli scaffali per intenzione.
+
 ## Come riprendere il lavoro
 
 ```bash

@@ -11,36 +11,32 @@ eta:
   a: 5
 temi: []
 salute: [igiene]
-copertina:
-  tinta: "#c96a5c"
-  sagoma: cat
+# Direzione artistica della fiaba: la scena viene composta a strati
+# (cielo, bagliore, colline, alberi, personaggio) da questi colori, e la
+# luce si abbassa da sola pagina dopo pagina.
+scena:
+  cielo: ["#F3B29B", "#C96A5C"]
+  colline: ["#A8503F", "#743127"]
+  luce: "#FFE4D3"
+  sagoma: gatto
+  notte: false
 pagine:
   - testo: >-
       Baffo era il gattino più pigro del cortile. Ogni sera, quando sua madre
       iniziava a lavargli il pelo con la lingua ruvida, lui scappava a
       nascondersi dietro il vaso di gerani.
-    tinta: "#e08a7a"
-    sagoma: cat
   - testo: >-
       «È troppo lungo, troppo noioso!» miagolava. Preferiva rotolarsi nella
       terra e nell'erba, lasciando che il pelo si riempisse di semini,
       foglioline e piccoli grumi appiccicosi.
-    tinta: "#c96a5c"
-    sagoma: cat
   - testo: >-
       Un giorno provò a correre veloce come sempre, ma il pelo incollato gli
       tirava, gli pizzicava, e persino il naso gli prudeva senza sosta.
-    tinta: "#a8503f"
-    sagoma: cat
   - testo: >-
       Sua madre lo trovò tutto arruffato dietro il vaso. Senza dire nulla,
       cominciò a pulirlo pian piano, un ciuffo alla volta, con pazienza
       infinita.
-    tinta: "#8a3f30"
-    sagoma: cat
   - testo: >-
       Baffo scoprì che, una volta pulito, correre era di nuovo leggero e veloce
       come il vento. Da quella sera, aspettò lui stesso il momento di farsi
       lavare il pelo.
-    tinta: "#c96a5c"
-    sagoma: cat

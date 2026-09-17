@@ -11,35 +11,32 @@ eta:
   a: 5
 temi: [coraggio]
 salute: [sonno]
-copertina:
-  tinta: "#f4c15a"
-  sagoma: firefly
+# Direzione artistica della fiaba: la scena viene composta a strati
+# (cielo, bagliore, colline, alberi, personaggio) da questi colori, e la
+# luce si abbassa da sola pagina dopo pagina.
+scena:
+  cielo: ["#4E4184", "#1A1740"]
+  colline: ["#2C2856", "#15123A"]
+  luce: "#F6C75F"
+  sagoma: lucciola
+  notte: true
+  atmosfera: lucciole
 pagine:
   - testo: >-
       Buffa era una lucciola con una lucina gialla proprio sulla pancia. Ma ogni
       sera, quando il cielo si scuriva, si nascondeva sotto una foglia tremando.
-    tinta: "#d9a94d"
-    sagoma: firefly
   - testo: >-
       «Il buio è troppo grande» diceva. «E se mi perdessi dentro?» Le altre
       lucciole danzavano nel prato, lasciando dietro di sé piccole scie dorate.
-    tinta: "#33285a"
-    sagoma: firefly
   - testo: >-
       Una lucciola anziana si posò accanto a lei. «Non devi vedere tutto il buio
       insieme» le disse piano. «Basta accendere la tua luce, un pezzetto alla
       volta.»
-    tinta: "#171433"
-    sagoma: firefly
   - testo: >-
       Buffa fece un respiro profondo e lasciò accendere la sua lucina. Il buio
       intorno non sparì, ma quel piccolo cerchio dorato era tutto suo, ed era
       abbastanza.
-    tinta: "#241f45"
-    sagoma: firefly
   - testo: >-
       Quella notte Buffa volò tra i fili d'erba, e per la prima volta il buio
       non le sembrò più una cosa da cui scappare, ma un cielo tutto da
       illuminare.
-    tinta: "#f4c15a"
-    sagoma: firefly

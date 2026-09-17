@@ -11,37 +11,33 @@ eta:
   a: 5
 temi: [condivisione]
 salute: [alimentazione]
-copertina:
-  tinta: "#c98a2e"
-  sagoma: bear
+# Direzione artistica della fiaba: la scena viene composta a strati
+# (cielo, bagliore, colline, alberi, personaggio) da questi colori, e la
+# luce si abbassa da sola pagina dopo pagina.
+scena:
+  cielo: ["#F7D289", "#C98A2E"]
+  colline: ["#A8701F", "#6C4711"]
+  luce: "#FFF3CD"
+  sagoma: orso
+  notte: false
 pagine:
   - testo: >-
       Bruno l'orsetto aveva impastato per tutto il pomeriggio: farina, miele
       dorato e un pizzico di cannella. La torta uscì dal forno profumata e
       perfetta, tutta per lui.
-    tinta: "#e0a94a"
-    sagoma: bear
   - testo: >-
       Stava per tagliarsene una grande fetta quando bussarono alla porta: il
       tasso Tobia, lo scoiattolo Nino e la piccola lepre Mora, con la pancia che
       brontolava.
-    tinta: "#c98a2e"
-    sagoma: bear
   - testo: >-
       «Che buon profumo!» disse Tobia, guardando la torta con occhi grandi.
       Bruno strinse il piatto al petto. «È mia» pensò, ma non riuscì a dirlo ad
       alta voce.
-    tinta: "#a8701f"
-    sagoma: bear
   - testo: >-
       Guardò i suoi amici, poi la torta, poi di nuovo i suoi amici. Prese il
       coltello e cominciò a tagliare quattro fette, una per ciascuno, l'ultima
       più piccola per sé.
-    tinta: "#8a5c18"
-    sagoma: bear
   - testo: >-
       Seduti tutti insieme sul prato, la torta sparì in pochi minuti tra risate
       e briciole di miele sui musi. Bruno pensò che non l'aveva mai sentita così
       buona.
-    tinta: "#c98a2e"
-    sagoma: bear
